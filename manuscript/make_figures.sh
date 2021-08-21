@@ -20,7 +20,7 @@ for dataset in Connecticut-2021-02-11-10000x Connecticut-WG-2021-02-11-1000x; do
             -o ${OUTDIR} \
             -v \
             --output_format png,svg \
-            ${HOMEDIR}/wastewater/kallisto/benchmarks/${dataset}_random1000_USA/*/predictions_m${m}.tsv;
+            ${HOMEDIR}/kallisto/benchmarks/${dataset}_random1000_USA/*/predictions_m${m}.tsv;
     done;
 done
 
@@ -56,7 +56,7 @@ for voc in B.1.1.7 B.1.351 B.1.427 B.1.429 B.1.526 P.1; do \
         --run_info ${DATADIR}/biobot/analysis_july_5/kallisto_refs_USA/*/run_info.json \
         --confidence 95 \
         --metadata ${DATADIR}/biobot/metadata_full.csv \
-        --metadata_ref ${HOMEDIR}/wastewater/GISAID/downloads/random1000_USA/metadata.tsv \
+        --metadata_ref ${HOMEDIR}/GISAID/downloads/random1000_USA/metadata.tsv \
         --voc $voc \
         --min_ab 0.1 \
         --outdir $OUTDIR \
@@ -75,9 +75,9 @@ done
 python analysis/plot_sequence_diversity.py \
         --outdir $OUTDIR \
         --voc_names B.1.1.7 B.1.351 B.1.427 B.1.429 B.1.526 P.1 \
-        --site_pi_files ${HOMEDIR}/wastewater/GISAID/downloads/random1000_USA/{B.1.1.7,B.1.351,B.1.427,B.1.429,B.1.526,P.1}_merged.sites.pi \
+        --site_pi_files ${HOMEDIR}/GISAID/downloads/random1000_USA/{B.1.1.7,B.1.351,B.1.427,B.1.429,B.1.526,P.1}_merged.sites.pi \
         --ref_size 29903 \
-        --allele_freq_files ${HOMEDIR}/wastewater/GISAID/downloads/random1000_USA/{B.1.1.7,B.1.351,B.1.427,B.1.429,B.1.526,P.1}_merged.frq \
+        --allele_freq_files ${HOMEDIR}/GISAID/downloads/random1000_USA/{B.1.1.7,B.1.351,B.1.427,B.1.429,B.1.526,P.1}_merged.frq \
         --min_af 0.5
 
 # figure S2
@@ -91,15 +91,15 @@ for dataset in Connecticut-2021-02-11-100x Connecticut-2021-02-11-1000x Connecti
             -o ${OUTDIR} \
             -v \
             --output_format png,svg \
-            ${HOMEDIR}/wastewater/kallisto/benchmarks/${dataset}_random1000_USA/*/predictions_m${m}.tsv;
+            ${HOMEDIR}/kallisto/benchmarks/${dataset}_random1000_USA/*/predictions_m${m}.tsv;
     done;
 done
 
 # figure S3
 # "salmon versus kallisto abundance estimates per VOC"
 python analysis/plot_kallisto_vs_salmon.py \
-        --kallisto ${HOMEDIR}/wastewater/kallisto/benchmarks/Connecticut-WG-2021-02-11-1000x/*/predictions_m0.1.tsv \
-        --salmon ${HOMEDIR}/wastewater/salmon/benchmarks/Connecticut-WG-2021-02-11-1000x/*/predictions_m0.1.tsv \
+        --kallisto ${HOMEDIR}/kallisto/benchmarks/Connecticut-WG-2021-02-11-1000x/*/predictions_m0.1.tsv \
+        --salmon ${HOMEDIR}/salmon/benchmarks/Connecticut-WG-2021-02-11-1000x/*/predictions_m0.1.tsv \
         --voc B.1.1.7,B.1.351,B.1.427,B.1.429,P.1 \
         -o $OUTDIR \
         -m 0.1
@@ -121,7 +121,7 @@ for voc in B.1.1.7 B.1.351 B.1.427 B.1.429 B.1.526 P.1; do \
         --bootstraps ${DATADIR}/yale/yale-batch3/kallisto_bootstrap_refs_USA/*/abundance.h5 \
         --confidence 95 \
         --metadata ${DATADIR}/yale/yale-batch3/metadata_full.csv \
-        --metadata_ref ${HOMEDIR}/wastewater/GISAID/downloads/random1000_USA/metadata.tsv \
+        --metadata_ref ${HOMEDIR}/GISAID/downloads/random1000_USA/metadata.tsv \
         --voc $voc \
         --min_ab 0 \
         --outdir $OUTDIR \
@@ -149,7 +149,7 @@ for voc in B.1.1.7 B.1.351 B.1.427 B.1.429 B.1.526 P.1; do \
         --run_info ${DATADIR}/biobot/analysis_july_5/kallisto_refs_USA/*/run_info.json \
         --confidence 95 \
         --metadata ${DATADIR}/biobot/metadata_full.csv \
-        --metadata_ref ${HOMEDIR}/wastewater/GISAID/downloads/random1000_USA/metadata.tsv \
+        --metadata_ref ${HOMEDIR}/GISAID/downloads/random1000_USA/metadata.tsv \
         --voc $voc \
         --min_ab 0 \
         --outdir $OUTDIR \
