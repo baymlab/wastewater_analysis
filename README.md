@@ -5,9 +5,9 @@ manuscript. We show that by sequencing SARS-CoV-2 RNA in wastewater and applying
 computational techniques initially used for RNA-Seq quantification, we can
 estimate the abundance of variants in wastewater samples.
 
-Here, we present the computational pipeline, which can easily be reused for
-other wastewater samples. The exact scripts and commands used to analyze the
-data discussed in our manuscript can be found in the manuscript folder.
+This computational pipeline can easily be reused for other wastewater samples.
+The exact scripts and commands used to analyze the data discussed in our
+manuscript can be found in the manuscript folder.
 
 
 ## Building a reference set
@@ -33,7 +33,7 @@ mutations with an allele frequency of at least 50% were captured at least once.
     python pipeline/select_samples.py -m <GISAID_metadata.tsv> -f <GISAID_sequences.fasta> -n <GISAID_nonN_chars_per_id.txt> -o reference_set --vcf reference_set/*_merged.vcf.gz --freq reference_set/*_merged.frq
 
 ### Pre-selected reference set
-GISAID sequence identifiers for the reference set used in our manuscript are
+GISAID sequence identifiers for the reference set used in our manuscript will be
 provided in `pipeline/reference_set_03_2021.txt`.
 
 
@@ -66,4 +66,4 @@ Finally, the kallisto output can be processed to obtain variant abundance estima
     python pipeline/output_abundances.py -m <min_ab> -o <outdir>/predictions.tsv --metadata reference_set/metadata.tsv --voc B.1.1.7,B.1.351,B.1.427,B.1.429,B.1.526,P.1 <outdir>/abundance.tsv
 
 Lineages of interest are provided as a comma-separated list with `--voc` (see above).
-The predictions are written to <outdir>/abundance.tsv
+The predicted abundances for these lineages are written to `<outdir>/abundance.tsv`.

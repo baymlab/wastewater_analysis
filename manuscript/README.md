@@ -32,8 +32,11 @@ Connecticut on 2021-03-04.
 
 Then, we run kallisto on each of these benchmarks:
 
+    bootstraps=100
+    min_ab=0.1
+    ref_dir=reference_set
     for dataset in Connecticut-WG-2021-02-11-100x Connecticut-WG-2021-02-11-1000x Connecticut-2021-02-11-100x Connecticut-2021-02-11-1000x Connecticut-2021-02-11-10000x; do \
-        sbatch benchmarking/run_kallisto_ref_sets.sh ${dataset} 100 reference_set 0.1;
+        sbatch benchmarking/run_kallisto_ref_sets.sh ${dataset} ${bootstraps} ${ref_dir} ${min_ab};
     done
 
 
