@@ -234,7 +234,7 @@ def main():
         plt.tight_layout()
         plt.savefig(args.outdir + "/case_rates_rna_levels{}.png".format(
                                                                 args.outsuffix))
-        ))
+
 
     return
 
