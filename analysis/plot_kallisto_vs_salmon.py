@@ -19,6 +19,10 @@ def main():
     parser.add_argument('--output_format', dest='output_format', default='png', help="comma-separated list of desired output formats")
     args = parser.parse_args()
 
+    plt.rcParams.update({'font.size': 14,
+                         'legend.fontsize': 12,
+                         'legend.title_fontsize': 12,
+                         'figure.titlesize': 16})
 
     voc_list = args.voc.split(',')
     output_formats = args.output_format.split(',')
