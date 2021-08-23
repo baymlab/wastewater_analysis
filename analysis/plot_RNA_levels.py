@@ -32,7 +32,7 @@ def main():
     df = df.dropna()
 
     # increase font size for all figures
-    plt.rcParams.update({'font.size': 12})
+    plt.rcParams.update({'font.size': 14})
 
     # read run info per sample
     df["n_processed"] = -1
@@ -83,6 +83,10 @@ def main():
         df["CT"] = df["CT undiluted"].astype("float")
     elif "Cq" in df.columns:
         df["CT"] = df["Cq"].astype("float")
+    mean_ct = df["CT"].mean()
+    median_ct = df["CT"].median()
+    print("Mean Ct value:", mean_ct)
+    print("Median Ct value:", median_ct)
 
     # read alignment stats (coverage)
     df["cov"] = 0.0
@@ -130,9 +134,10 @@ def main():
                    hue="n_aligned_bin", palette="rocket_r",
                    # fit_reg=False,
                    legend="brief",
+                   fontsize='10',
                    facet_kws=dict(despine=False))
         # df.plot.scatter(x="copies/mL", y="cov")
-        plt.xlabel("Ct (undiluted)")
+        plt.xlabel("Ct")
         plt.ylabel("Percent genome with >{}x coverage".format(cov_threshold))
         plt.ylim(-5, 105)
         # plt.legend(bbox_to_anchor=(1, 0.3), borderaxespad=0., title="# reads aligned")
@@ -151,6 +156,7 @@ def main():
                hue="copies/mL_bin", palette="rocket_r",
                # fit_reg=False,
                legend="brief",
+               fontsize='10',
                facet_kws=dict(despine=False))
     plt.xlabel("# reads aligned")
     plt.ylabel("Percent genome with >{}x coverage".format(cov_threshold))
@@ -178,6 +184,7 @@ def main():
 
         dates = plot_df["Date"]
 
+        plt.rcParams.update({'font.size': 12})
         fig = plt.figure()
         ax1 = plt.gca()
         ax2 = ax1.twinx()
