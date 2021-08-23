@@ -151,7 +151,7 @@ def main():
                       capsize=2)
     ax.legend(["Wastewater", "GISAID"])
     ax.set_xticks(range(len(xticklabels)))
-    ax.set_xticklabels(xticklabels, fontsize=8, rotation=45, ha="right")
+    ax.set_xticklabels(xticklabels, fontsize=10, rotation=45, ha="right")
     # plt.xlabel("Sample location (state) and date")
     plt.xlabel("")
     plt.ylabel("Abundance (%)")
