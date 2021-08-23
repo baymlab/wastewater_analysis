@@ -180,7 +180,7 @@ def main():
     plt.grid(which="both", alpha=0.2)
     plt.ylim(-5, 105)
     plt.xlabel("True VOC frequency (%)")
-    plt.ylabel("Relative frequency estimation error (%)")
+    plt.ylabel("Relative prediction error (%)")
     # plt.gcf().set_size_inches(4, 3)
     plt.tight_layout()
     for format in output_formats:
@@ -208,7 +208,7 @@ def main():
     plt.xlim(0.07, 150)
     plt.ylim(0.07, 150)
     plt.plot([0, 100], [0, 100], 'k-', lw=0.75)
-    plt.legend()
+    plt.legend(prop={'size': 12}) #ncol=len(variants_list), 
     plt.grid(which="both", alpha=0.2)
     plt.xlabel("True VOC frequency (%)")
     plt.ylabel("Estimated VOC frequency (%)")
