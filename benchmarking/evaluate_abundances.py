@@ -208,10 +208,14 @@ def main():
     plt.xlim(0.07, 150)
     plt.ylim(0.07, 150)
     plt.plot([0, 100], [0, 100], 'k-', lw=0.75)
-    plt.legend(prop={'size': 12}) #ncol=len(variants_list), 
+    plt.legend(prop={'size': 12}) #ncol=len(variants_list),
     plt.grid(which="both", alpha=0.2)
     plt.xlabel("True VOC frequency (%)")
     plt.ylabel("Estimated VOC frequency (%)")
+    # Hide the right and top spines
+    ax = plt.gca()
+    ax.spines.right.set_visible(False)
+    ax.spines.top.set_visible(False)
     plt.tight_layout()
     for format in output_formats:
         plt.savefig("{}/freq_scatter_loglog{}.{}".format(args.outdir,
