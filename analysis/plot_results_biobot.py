@@ -138,6 +138,7 @@ def main():
 
     # plot predictions with error bars representing confidence intervals
     plot_df = plot_df.reset_index(drop=True)
+    plt.rcParams.update({'font.size': 14}) # increase font size
     plt.figure()
     gisaid_col = "gisaid-{}".format(voc)
     ax = plot_df.plot(x="State",
@@ -182,7 +183,7 @@ def main():
 
     if args.fig_width:
         plt.gcf().set_size_inches(args.fig_width, args.fig_height)
-    plt.title(voc, fontsize=14)
+    plt.title(voc, fontsize=16)
     ax.yaxis.grid(alpha=0.2)
     # ax.legend(ncol=len(voc_list), loc='upper right')
     plt.tight_layout()

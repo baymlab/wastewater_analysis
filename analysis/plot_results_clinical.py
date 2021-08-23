@@ -146,7 +146,7 @@ def main():
 
     if args.fig_width:
         plt.gcf().set_size_inches(args.fig_width, args.fig_height)
-    plt.title(voc, fontsize=14)
+    plt.title(voc, fontsize=16)
     plt.grid(axis='y', which='major', alpha=0.2)
     plt.legend(loc='upper left')
     plt.ylabel("Abundance (%)")
