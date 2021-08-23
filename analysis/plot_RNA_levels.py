@@ -3,6 +3,7 @@
 import sys
 import os
 import argparse
+import matplotlib
 import matplotlib.pyplot as plt
 import pandas as pd
 import json
