@@ -136,7 +136,7 @@ def main():
                    legend="brief",
                    facet_kws=dict(despine=False))
         # df.plot.scatter(x="copies/mL", y="cov")
-        plt.legend(fontsize=10)
+        plt.legend(fontsize=6)
         plt.xlabel("Ct")
         plt.ylabel("Percent genome with >{}x coverage".format(cov_threshold))
         plt.ylim(-5, 105)
@@ -184,7 +184,7 @@ def main():
 
         dates = plot_df["Date"]
 
-        plt.rcParams.update({'font.size': 12})
+        plt.rcParams.update({'font.size': 11})
         fig = plt.figure()
         ax1 = plt.gca()
         ax2 = ax1.twinx()
@@ -212,7 +212,7 @@ def main():
         ax1.set_zorder(1)
         ax1.set_frame_on(False)
 
-        ax1.set_ylim(0,350000)
+        ax1.set_ylim(0,300000)
         ax2.set_ylim(0,200)
 
         plt.gcf().set_size_inches(10, 3)
