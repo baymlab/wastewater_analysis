@@ -51,7 +51,11 @@ def main():
         pos2 = max([max(df["pos"]) for df in df_dict.values()])
 
     # plot depth
-    plt.figure(figsize=(10,2))
+    plt.rcParams.update({'font.size': 14,
+                         'legend.fontsize': 12,
+                         'legend.title_fontsize': 12,
+                         'figure.titlesize': 16})
+    plt.figure(figsize=(15,3))
     for i, file in enumerate(depth_files):
         df = df_dict[file]
         if args.samples:
