@@ -33,7 +33,8 @@ def main():
 
     # increase font size for all figures
     plt.rcParams.update({'font.size': 14,
-                         'legend.fontsize': 10})
+                         'legend.fontsize': 10,
+                         'legend.title_fontsize': 10})
 
     # read run info per sample
     df["n_processed"] = -1
@@ -142,7 +143,7 @@ def main():
         plt.ylim(-5, 105)
         # plt.legend(bbox_to_anchor=(1, 0.3), borderaxespad=0., title="# reads aligned")
         ax._legend.set_bbox_to_anchor([0.97, 0.83])
-        ax._legend.set_title("# reads aligned", fontsize=10)
+        ax._legend.set_title("# reads aligned")
         ax._legend.set_frame_on(True)
         ax._legend.get_frame().set_linewidth(1)
         plt.gcf().set_size_inches(6, 5)
