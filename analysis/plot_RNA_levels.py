@@ -215,7 +215,7 @@ def main():
         ax1.set_ylim(0,250000)
         ax2.set_ylim(0,175)
 
-        plt.xticks(rotation=30, ha="right")
+        ax2.xticks(rotation=30, ha="right")
 
         plt.gcf().set_size_inches(10, 3)
         handles1, labels1 = ax1.get_legend_handles_labels()
