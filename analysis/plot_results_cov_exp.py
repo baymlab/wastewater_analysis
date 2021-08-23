@@ -57,7 +57,7 @@ def main():
     ax = sns.boxplot(data=df) #, color='grey'
     # plt.ylim(0, 100)
     # plt.title(sample_id)
-    plt.xlabel("Percent genome with > 20x coverage")
+    plt.xlabel("Percent genome covered")
     plt.ylabel("Predicted {} abundance (%)".format(args.voc))
     plt.gcf().set_size_inches(4, 5)
     plt.tight_layout()
