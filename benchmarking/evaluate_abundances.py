@@ -170,7 +170,7 @@ def main():
             variant_list.append(joint_voc_name)
             colors[joint_voc_name] = colors[joint_voc_list[0]]
 
-
+    plt.rcParams.update({'font.size': 14}) # increase font size
     plt.figure()
     for voc in variant_list:
         freq_values = [x[1] for x in err_list if x[0] == voc]
