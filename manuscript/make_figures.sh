@@ -30,14 +30,15 @@ python analysis/plot_RNA_levels.py \
         --run_info ${DATADIR}/yale/yale-batch3/kallisto_refs_USA/*/run_info.json \
         --metadata ${DATADIR}/yale/yale-batch3/metadata_full.csv \
         -o $OUTDIR \
-        --aln_stats ${DATADIR}/yale/yale-batch3/ivar/*.stats
+        --aln_stats ${DATADIR}/yale/yale-batch3/ivar/*.stats\
+        --outsuffix _yale
 
 # figure 3 panel c
 python analysis/plot_results_cov_exp.py \
         --predictions ${DATADIR}/yale/cov_exp_ER2/p*/S*/predictions_m0.1.tsv \
         --voc B.1.1.7 \
         --repeats 100 \
-        -o ${OUTDIR}/fig1c.pvg
+        -o ${OUTDIR}/fig1c.png
 
 # figure 4
 for voc in B.1.1.7 B.1.351 B.1.427 B.1.429 B.1.526 P.1; do \
@@ -139,7 +140,8 @@ python analysis/plot_RNA_levels.py \
         --run_info ${DATADIR}/biobot/analysis_july_5/kallisto_refs_USA/*/run_info.json \
         --metadata ${DATADIR}/biobot/metadata_full.csv \
         --aln_stats ${DATADIR}/biobot/analysis_july_5/ivar/*.stats \
-        -o $OUTDIR
+        -o $OUTDIR \
+        --outsuffix _biobot
 
 # figure S7 (subplots)
 # "predictions per VOC with confidence intervals based on bootstrap analysis for samples across the US"

@@ -48,6 +48,12 @@ def main():
         df[p_dir] = predictions
     # print(df)
 
+
+    # increase font size for all figures
+    plt.rcParams.update({'font.size': 14,
+                         'legend.fontsize': 10,
+                         'legend.title_fontsize': 10})
+
     ax = sns.boxplot(data=df) #, color='grey'
     # plt.ylim(0, 100)
     # plt.title(sample_id)
