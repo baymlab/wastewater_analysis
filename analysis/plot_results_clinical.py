@@ -87,7 +87,9 @@ def main():
         clinical_df.loc[index, "abundance(%)"] = abundance
         clinical_df.loc[index, "total_cases"] = total_cases[row["First day of week"]]
     # print(clinical_df)
-    plt.rcParams.update({'font.size': 12}) # increase font size
+    plt.rcParams.update({'font.size': 14,
+                         'legend.fontsize': 12,
+                         'legend.title_fontsize': 12}) # increase font size
     plt.figure()
     plt.plot_date(clinical_df["First day of week"],
                   clinical_df["abundance(%)"],
@@ -148,7 +150,7 @@ def main():
     plt.grid(axis='y', which='major', alpha=0.2)
     plt.legend(loc='upper left')
     plt.ylabel("Abundance (%)")
-    sns.despine()
+    # sns.despine()
     plt.tight_layout()
     for format in args.output_format.split(','):
         outfile = "{}/{}_{}.{}".format(args.outdir, args.outprefix, voc, format)
