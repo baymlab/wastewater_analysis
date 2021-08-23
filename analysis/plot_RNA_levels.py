@@ -32,7 +32,8 @@ def main():
     df = df.dropna()
 
     # increase font size for all figures
-    plt.rcParams.update({'font.size': 14})
+    plt.rcParams.update({'font.size': 14,
+                         'legend.fontsize': 10})
 
     # read run info per sample
     df["n_processed"] = -1
@@ -136,7 +137,6 @@ def main():
                    legend="brief",
                    facet_kws=dict(despine=False))
         # df.plot.scatter(x="copies/mL", y="cov")
-        plt.legend(fontsize=6)
         plt.xlabel("Ct")
         plt.ylabel("Percent genome with >{}x coverage".format(cov_threshold))
         plt.ylim(-5, 105)
@@ -157,7 +157,6 @@ def main():
                # fit_reg=False,
                legend="brief",
                facet_kws=dict(despine=False))
-    plt.legend(fontsize=10)
     plt.xlabel("# reads aligned")
     plt.ylabel("Percent genome with >{}x coverage".format(cov_threshold))
     plt.ylim(-5, 105)
@@ -212,8 +211,10 @@ def main():
         ax1.set_zorder(1)
         ax1.set_frame_on(False)
 
-        ax1.set_ylim(0,300000)
-        ax2.set_ylim(0,200)
+        ax1.set_ylim(0,250000)
+        ax2.set_ylim(0,175)
+
+        plt.xticks(rotation=30, ha="right")
 
         plt.gcf().set_size_inches(10, 3)
         handles1, labels1 = ax1.get_legend_handles_labels()
