@@ -187,8 +187,13 @@ def main():
         plt.rcParams.update({'font.size': 11})
         fig = plt.figure()
         ax1 = plt.gca()
+        months = matplotlib.dates.MonthLocator()
+        ax1.xaxis.set_major_locator(months)
+        year_month = matplotlib.dates.DateFormatter('%Y-%m')
+        ax1.xaxis.set_major_formatter(year_month)
         ax2 = ax1.twinx()
         ax2.spines['right'].set_position(('axes', 1.0))
+
 
         ax1.bar(dates,
                 plot_df["SARS-CoV-2 copies/ml sludge"],
@@ -214,8 +219,6 @@ def main():
 
         ax1.set_ylim(0,250000)
         ax2.set_ylim(0,175)
-
-        ax2.xticks(rotation=30, ha="right")
 
         plt.gcf().set_size_inches(10, 3)
         handles1, labels1 = ax1.get_legend_handles_labels()
