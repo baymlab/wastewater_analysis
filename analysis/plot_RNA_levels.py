@@ -50,7 +50,7 @@ def main():
             df.loc[df["ID"] == sample_id, "p_unique"] = float(run_info["p_unique"])
 
     df = df.loc[df["n_processed"] >= 0]
-    print(df)
+    # print(df)
 
     # divide read counts into bins
     if args.spike:
@@ -134,9 +134,9 @@ def main():
                    hue="n_aligned_bin", palette="rocket_r",
                    # fit_reg=False,
                    legend="brief",
-                   fontsize='10',
                    facet_kws=dict(despine=False))
         # df.plot.scatter(x="copies/mL", y="cov")
+        plt.legend(fontsize=10)
         plt.xlabel("Ct")
         plt.ylabel("Percent genome with >{}x coverage".format(cov_threshold))
         plt.ylim(-5, 105)
@@ -156,8 +156,8 @@ def main():
                hue="copies/mL_bin", palette="rocket_r",
                # fit_reg=False,
                legend="brief",
-               fontsize='10',
                facet_kws=dict(despine=False))
+    plt.legend(fontsize=10)
     plt.xlabel("# reads aligned")
     plt.ylabel("Percent genome with >{}x coverage".format(cov_threshold))
     plt.ylim(-5, 105)
