@@ -45,6 +45,11 @@ def main():
                 pi_list.append(float(line[2]))
         diversity_dict[voc] = [pos_list, pi_list]
 
+    plt.rcParams.update({'font.size': 14,
+                         'legend.fontsize': 12,
+                         'legend.title_fontsize': 12,
+                         'figure.titlesize': 16})
+
     plot_nuc_diversity(diversity_dict, args.ref_size, args.outdir)
     plot_nuc_diversity_subplots(diversity_dict, args.ref_size, args.outdir)
 
