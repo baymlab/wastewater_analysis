@@ -214,8 +214,8 @@ def main():
     plt.ylabel("Estimated VOC frequency (%)")
     # Hide the right and top spines
     ax = plt.gca()
-    ax.spines.right.set_visible(False)
-    ax.spines.top.set_visible(False)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
     plt.tight_layout()
     for format in output_formats:
         plt.savefig("{}/freq_scatter_loglog{}.{}".format(args.outdir,
