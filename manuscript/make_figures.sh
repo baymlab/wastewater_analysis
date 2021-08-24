@@ -31,7 +31,8 @@ python analysis/plot_RNA_levels.py \
         --metadata ${DATADIR}/yale/yale-batch3/metadata_full.csv \
         -o $OUTDIR \
         --aln_stats ${DATADIR}/yale/yale-batch3/ivar/*.stats\
-        --outsuffix _yale
+        --outsuffix _yale \
+        --outformat png,svg
 
 # figure 3 panel c
 python analysis/plot_results_cov_exp.py \
@@ -48,7 +49,8 @@ for voc in B.1.1.7 B.1.351 B.1.427 B.1.429 B.1.526 P.1; do \
         --clinical_data ${DATADIR}/yale/NHV_lineages_by_week_2021Jan_23May.csv \
         --outdir $OUTDIR \
         --fig_width=15 \
-        --outprefix yale_predictions_clinical;
+        --outprefix yale_predictions_clinical \
+        --output_format png,svg;
 done
 
 # figure 5
@@ -82,6 +84,14 @@ python analysis/plot_sequence_diversity.py \
         --min_af 0.5
 
 # figure S2
+# background noise in predictions
+python analysis/plot_raw_predictions.py \
+        ${HOMEDIR}/kallisto/benchmarks/Connecticut-WG-2021-02-11-100x_random1000_USA/B.1.1.7_EPI_ISL_1064784_ab100/abundance.tsv \
+        --outprefix B.1.1.7_ab100_ \
+        --outformat png,svg \
+        --outdir $OUTDIR
+
+# figure S3
 # "additional benchmarking results"
 for dataset in Connecticut-2021-02-11-100x Connecticut-2021-02-11-1000x Connecticut-WG-2021-02-11-100x; do \
     for m in 0.1 1; do \
@@ -96,26 +106,33 @@ for dataset in Connecticut-2021-02-11-100x Connecticut-2021-02-11-1000x Connecti
     done;
 done
 
-# figure S3
+# figure S4
 # "salmon versus kallisto abundance estimates per VOC"
 python analysis/plot_kallisto_vs_salmon.py \
         --kallisto ${HOMEDIR}/kallisto/benchmarks/Connecticut-WG-2021-02-11-1000x/*/predictions_m0.1.tsv \
         --salmon ${HOMEDIR}/salmon/benchmarks/Connecticut-WG-2021-02-11-1000x/*/predictions_m0.1.tsv \
         --voc B.1.1.7,B.1.351,B.1.427,B.1.429,P.1 \
         -o $OUTDIR \
-        -m 0.1
+        -m 0.1 \
+        --output_format png,svg
 
-# figure S4
-# "sequencing depth along the genome obtained from 59 sludge samples in New Haven, CT."
+# figure S5
+# "sequencing depth along the genome obtained from sludge samples in New Haven, CT."
 python analysis/plot_coverage.py \
         --samples "FH1 (20%),EX1 (63%),ER2 (99%)" \
         -o ${OUTDIR}/FH1_EX1_ER2_depth.png \
         ${DATADIR}/yale/yale-batch3/ivar/FH1.trimmed.depth \
         ${DATADIR}/yale/yale-batch3/ivar/EX1.trimmed.depth \
         ${DATADIR}/yale/yale-batch3/ivar/ER2.trimmed.depth;
-python analysis/plot_coverage.py -o ${OUTDIR}/depth_all.png ${DATADIR}/yale/yale-batch3/ivar/*.trimmed.depth
+python analysis/plot_coverage.py \
+        --samples "FH1 (20%),EX1 (63%),ER2 (99%)" \
+        -o ${OUTDIR}/FH1_EX1_ER2_depth.svg \
+        ${DATADIR}/yale/yale-batch3/ivar/FH1.trimmed.depth \
+        ${DATADIR}/yale/yale-batch3/ivar/EX1.trimmed.depth \
+        ${DATADIR}/yale/yale-batch3/ivar/ER2.trimmed.depth;
+# python analysis/plot_coverage.py -o ${OUTDIR}/depth_all.svg ${DATADIR}/yale/yale-batch3/ivar/*.trimmed.depth
 
-# figure S5 (subplots)
+# figure S6 (subplots)
 # "predictions per VOC with confidence intervals based on bootstrap analysis for New Haven samples"
 for voc in B.1.1.7 B.1.351 B.1.427 B.1.429 B.1.526 P.1; do \
     python analysis/plot_bootstrap_results.py \
@@ -134,16 +151,17 @@ for voc in B.1.1.7 B.1.351 B.1.427 B.1.429 B.1.526 P.1; do \
         ${DATADIR}/yale/yale-batch3/kallisto_bootstrap_refs_USA/*/predictions_m0.tsv;
 done
 
-# figure S6
+# figure S7
 # "percent genome coverage versus Ct values for samples across the US"
 python analysis/plot_RNA_levels.py \
         --run_info ${DATADIR}/biobot/analysis_july_5/kallisto_refs_USA/*/run_info.json \
         --metadata ${DATADIR}/biobot/metadata_full.csv \
         --aln_stats ${DATADIR}/biobot/analysis_july_5/ivar/*.stats \
         -o $OUTDIR \
-        --outsuffix _biobot
+        --outsuffix _biobot \
+        --outformat png,svg
 
-# figure S7 (subplots)
+# figure S8 (subplots)
 # "predictions per VOC with confidence intervals based on bootstrap analysis for samples across the US"
 for voc in B.1.1.7 B.1.351 B.1.427 B.1.429 B.1.526 P.1; do \
     python analysis/plot_bootstrap_results.py \
