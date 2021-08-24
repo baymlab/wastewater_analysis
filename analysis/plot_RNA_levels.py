@@ -23,6 +23,7 @@ def main():
     parser.add_argument('--biobot', action='store_true', help="choose rna level bins suitable for biobot data")
     parser.add_argument('-o,--outdir', dest='outdir', required=True)
     parser.add_argument('--outsuffix', type=str, default="")
+    parser.add_argument('--outformat', type=str, default='png', help="comma-separated list of desired output formats")
     args = parser.parse_args()
 
     # read sample metadata
@@ -127,8 +128,10 @@ def main():
         plt.xlabel("Percent genome with >{}x coverage".format(cov_threshold))
         plt.ylabel("Percent spike with >{}x coverage".format(cov_threshold))
         plt.tight_layout()
-        plt.savefig(args.outdir + "/cov_genome_vs_spike{}.png".format(
-                                                            args.outsuffix))
+        for fmt in args.outformat.split(','):
+            plt.savefig("{}/cov_genome_vs_spike{}.{}".format(args.outdir,
+                                                             args.outsuffix,
+                                                             fmt))
 
     df = df.sort_values(by='Date')
     dates = df["Date"]
@@ -151,7 +154,10 @@ def main():
         ax._legend.get_frame().set_linewidth(1)
         plt.gcf().set_size_inches(6, 5)
         plt.tight_layout()
-        plt.savefig(args.outdir + "/CT_scatter_cov{}.png".format(args.outsuffix))
+        for fmt in args.outformat.split(','):
+            plt.savefig("{}/CT_scatter_cov{}.{}".format(args.outdir,
+                                                        args.outsuffix,
+                                                        fmt))
 
     # plot readcount vs coverage
     plt.figure()
@@ -170,7 +176,10 @@ def main():
     ax._legend.get_frame().set_linewidth(1)
     plt.gcf().set_size_inches(6, 5)
     plt.tight_layout()
-    plt.savefig(args.outdir + "/aln_vs_cov{}.png".format(args.outsuffix))
+    for fmt in args.outformat.split(','):
+        plt.savefig("{}/aln_vs_cov{}.{}".format(args.outdir,
+                                                args.outsuffix,
+                                                fmt))
 
 
     if args.case_rate_info:
@@ -232,8 +241,10 @@ def main():
         ax2.legend(handles2[::-1], labels2[::-1], loc="upper right")
 
         plt.tight_layout()
-        plt.savefig(args.outdir + "/case_rates_rna_levels{}.png".format(
-                                                                args.outsuffix))
+        for fmt in args.outformat.split(','):
+            plt.savefig("{}/case_rates_rna_levels{}.{}".format(args.outdir,
+                                                               args.outsuffix,
+                                                               fmt))
 
 
     return
