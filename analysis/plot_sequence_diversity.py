@@ -181,6 +181,8 @@ def plot_allele_freq_subplots(allele_freq_dict, ref_size, outdir):
     # plt.legend(bbox_to_anchor=(1.1, 1))
     plt.tight_layout()
     plt.savefig(outfile)
+    svg_outfile = outdir + "/allele_freq_subplots.svg"
+    plt.savefig(svg_outfile)
     return
 
 
