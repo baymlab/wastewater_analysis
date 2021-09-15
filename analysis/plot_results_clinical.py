@@ -168,7 +168,8 @@ def main():
 
     # write data to tsv
     outfile = "{}/{}_{}.tsv".format(args.outdir, args.outprefix, voc)
-    df.to_csv(outfile, sep='\t', index=False)
+    df.to_csv(outfile, sep='\t', index=False,
+              columns=["Date", "ID", voc, "rolling_av"])
 
 if __name__ == "__main__":
     sys.exit(main())
