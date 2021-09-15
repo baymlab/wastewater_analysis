@@ -181,6 +181,9 @@ def main():
                                                 args.outsuffix,
                                                 fmt))
 
+    outfile = args.outdir + "/raw_data_Ct_vs_cov.tsv"
+    df.to_csv(outfile, sep='\t')
+
 
     if args.case_rate_info:
         # plot case rate versus wastewater RNA levels
