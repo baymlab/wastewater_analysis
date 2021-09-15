@@ -43,8 +43,8 @@ Then, we run kallisto on each of these benchmarks:
 ## Sequencing data
 We preprocess sequencing data to remove adapters and primers from the reads:
 
-    sbatch pipeline/trim_reads.sh ginkgo_1_fastqs analysis_july_5 ginkgo_1_ids.txt adapters.fa primers.bed MN908947.3.DNA.fasta
-    sbatch pipeline/trim_reads.sh ww_fastqs_2021-05-25 yale/yale-batch3 yale/yale-batch3/sample_ids.txt adapters.fa primers.bed MN908947.3.DNA.fasta
+    sbatch pipeline/trim_reads.sh ginkgo_1_fastqs analysis_july_5 ginkgo_1_ids.txt auxiliary_data/adapters.fa auxiliary_data/primers.bed MN908947.3.DNA.fasta
+    sbatch pipeline/trim_reads.sh ww_fastqs_2021-05-25 yale/yale-batch3 yale/yale-batch3/sample_ids.txt auxiliary_data/adapters.fa auxiliary_data/primers.bed MN908947.3.DNA.fasta
 
 Then, we predict variant abundance from the wastewater sequencing data:
 
