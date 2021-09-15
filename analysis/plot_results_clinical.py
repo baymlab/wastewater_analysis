@@ -166,47 +166,9 @@ def main():
         outfile = "{}/{}_{}_ylim1.{}".format(args.outdir, args.outprefix, voc, format)
         plt.savefig(outfile)
 
-
-    # # plot gap between wastewater and clinical predictions
-    # df["clinical_ab"] = np.NaN
-    # # interpolate clinical predictions
-    # clinical_df['Date'] = pd.to_datetime(clinical_df['First day of week'])
-    # clinical_df = clinical_df.set_index('Date')
-    # clinical_df_interpolated = clinical_df.resample('D').interpolate('linear')
-    # df['Date'] = pd.to_datetime(df['Date'])
-    # df = df.set_index('Date')
-    # for date, row in df.copy().iterrows():
-    #     clinical_ab = clinical_df_interpolated.loc[date, "abundance(%)"]
-    #     df.loc[date, "clinical_ab"] = clinical_ab
-    # df["abs_dist"] = abs(df[voc] - df["clinical_ab"])
-    # df["rel_dist"] = df["abs_dist"] / df["clinical_ab"] * 100
-    #
-    # if args.sample_rna_levels:
-    #     plt.figure()
-    #     sns.regplot(data=df, x="copies/mL", y="abs_dist")
-    #     plt.ylim(-5, 105)
-    #     outfile = "{}/abs_error_vs_rna_level.png".format(args.outdir)
-    #     plt.savefig(outfile)
-    #
-    #     plt.figure()
-    #     sns.regplot(data=df, x="copies/mL", y="rel_dist")
-    #     plt.ylim(-5, 105)
-    #     outfile = "{}/rel_error_vs_rna_level.png".format(args.outdir)
-    #     plt.savefig(outfile)
-    #
-    #
-    # if args.aln_stats:
-    #     plt.figure()
-    #     sns.regplot(data=df, x="cov", y="abs_dist")
-    #     plt.ylim(-5, 105)
-    #     outfile = "{}/abs_error_vs_cov.png".format(args.outdir)
-    #     plt.savefig(outfile)
-    #
-    #     plt.figure()
-    #     sns.regplot(data=df, x="cov", y="rel_dist")
-    #     plt.ylim(-5, 105)
-    #     outfile = "{}/rel_error_vs_cov.png".format(args.outdir)
-    #     plt.savefig(outfile)
+    # write data to tsv
+    outfile = "{}/{}_{}.tsv".format(args.outdir, args.outprefix, voc)
+    df.to_csv(outfile, sep='\t', index=False)
 
 if __name__ == "__main__":
     sys.exit(main())

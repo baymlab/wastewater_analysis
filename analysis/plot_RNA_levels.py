@@ -182,7 +182,7 @@ def main():
                                                 fmt))
 
     outfile = args.outdir + "/raw_data_Ct_vs_cov.tsv"
-    df.to_csv(outfile, sep='\t')
+    df.to_csv(outfile, sep='\t', index=False)
 
 
     if args.case_rate_info:
