@@ -34,7 +34,7 @@ mutations with an allele frequency of at least 50% were captured at least once.
 
 ### Pre-selected reference set
 GISAID sequence identifiers for the reference set used in our manuscript will be
-provided in `pipeline/reference_set_03_2021.txt`.
+provided in `auxiliary_data/reference_set_03_2021.txt`.
 
 
 ## Preprocessing sequencing data
