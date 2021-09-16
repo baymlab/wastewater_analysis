@@ -17,7 +17,10 @@ example, in our analysis we only consider sequences from US origin. Because the
 GISAID database is very large, we apply a quality filter and subsequently
 call variants and compute allele frequencies from 1000 sequences per lineage.
 Required input data for this step is a fasta file with GISAID sequences and a
-matching metadata tsv file. We begin by counting the number of non-ambiguous
+matching metadata tsv file. Both the sequences (.fasta) and the metadata (.tsv)
+are publicly available on GISAID but *only after registration*.
+
+We begin by counting the number of non-ambiguous
 nucleotides per sequence:
 
     sed '/^>/d' sequences_2021-03-04_08-34.fasta | tr -d 'N' | awk '{ print length; }' > sequences_2021-03-04_08-34.nonN_chars.txt
