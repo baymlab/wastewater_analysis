@@ -15,7 +15,6 @@ def main():
     parser.add_argument('--max_per_lineage', default=100, type=int, help="select at most k sequences per lineage")
     parser.add_argument('-m, --metadata', dest='metadata', type=str, help="metadata tsv file for full sequence database")
     parser.add_argument('-f, --fasta', dest='fasta_in', type=str, help="fasta file representing full sequence database")
-    parser.add_argument('-n, --nonN_counts', dest='nonN_counts', type=str, help="txt file with the number of nonambiguous characters per sequence")
     parser.add_argument('-o, --outdir', dest='outdir', type=str, default='.', help="output directory")
     args = parser.parse_args()
 
@@ -26,7 +25,7 @@ def main():
         pass
 
     # Select references per pango lineage
-    full_df = read_metadata(args.metadata, args.nonN_counts)
+    full_df = read_metadata(args.metadata)
     selection_df = select_ref_genomes(full_df, args.max_per_lineage, args.vcf,
                                       args.freq, args.min_aaf)
     # Write metadata of selected samples to new tsv
@@ -40,28 +39,27 @@ def main():
     return
 
 
-def read_metadata(metadata_file, nonN_count_file=None):
-    """Read metadata from tsv into dataframe"""
+def read_metadata(metadata_file):
+    """Read metadata from tsv into dataframe and filter for completeness"""
     df = pd.read_csv(metadata_file, sep='\t', header=0, dtype=str)
-    # add field with number of N's in sequence
-    if nonN_count_file:
-        df = add_nonN_count(df, nonN_count_file)
-    else:
-        df["nonN_count"] = "."
     # adjust date representation in dataframe
-    df["date"] = df["date"].str.replace('-XX','-01')
+    df["date"] = df["Collection date"].str.replace('-XX','-01')
     df["date"] = pd.to_datetime(df.date, yearfirst=True)
     # remove samples wich have no pangolin lineage assigned (NaN or None)
-    df = df[df["pangolin_lineage"].notna()]
-    df = df[df["pangolin_lineage"] != "None"]
+    df = df.loc[df["Pango lineage"].notna()]
+    df = df.loc[df["Pango lineage"] != "None"]
+    # remove samples which are marked as incomplete or N-content > 1%
+    df = df.astype({"Is complete?" : 'bool',
+                    "N-Content" : 'float'})
+    df = df.loc[(df["Is complete?"] == True) & (df["N-Content"] <= 0.01)]
     return df
 
 
 def select_ref_genomes(metadata_df, max_per_lineage, vcf_list, freq_list, min_aaf):
     """For every pangolin lineage, select exactly one sample."""
     # check which lineages are present
-    lineages = metadata_df["pangolin_lineage"].unique()
-    lineage_counts = metadata_df["pangolin_lineage"].value_counts()
+    lineages = metadata_df["Pango lineage"].unique()
+    lineage_counts = metadata_df["Pango lineage"].value_counts()
     print("# lineages = {}".format(len(lineages)))
     # assign vcfs to lineages, assuming vcfs are in current directory and named after the corresponding lineage
     vcf_dict = {vcf.split('/')[-1].split('_')[0] : vcf for vcf in vcf_list}
@@ -69,8 +67,9 @@ def select_ref_genomes(metadata_df, max_per_lineage, vcf_list, freq_list, min_aa
     # select samples for every lineage
     selection_ids = []
     for lin_id in lineages:
-        samples = metadata_df.loc[metadata_df["pangolin_lineage"] == lin_id]
-        samples = samples.sort_values(by=["nonN_count", "date"], ascending=False)
+        samples = metadata_df.loc[metadata_df["Pango lineage"] == lin_id]
+        samples = samples.sort_values(by=["N-content", "Collection date"],
+                                      ascending=[True, False])
         # read allele frequencies and extract sites with AAF >= minimal alt allele frequency
         try:
             allele_freq_file = freq_dict[lin_id]
@@ -135,34 +134,20 @@ def select_ref_genomes(metadata_df, max_per_lineage, vcf_list, freq_list, min_aa
 
     print("{} sequences selected in total".format(len(selection_ids)))
     selection_df = metadata_df.loc[
-                        metadata_df["gisaid_epi_isl"].isin(selection_ids)]
+                        metadata_df["Accession ID"].isin(selection_ids)]
     return selection_df
-
-
-def add_nonN_count(df, nonN_count_file):
-    """Count number of nonambiguous nucleotides per sequence and
-    add counts to dataframe"""
-    count_dict = {}
-    with open(nonN_count_file, 'r') as f:
-        for line in f:
-            id, count = line.rstrip('\n').split('\t')
-            count_dict[id] = int(count)
-    assert len(df.index) == len(count_dict)
-    count_list = [count_dict[id] for id in df["strain"]]
-    df["nonN_count"] = count_list
-    return df
 
 
 def filter_fasta(fasta_in, fasta_out, selection_df):
     """Filter fasta according to selected metadata"""
     keep_line = False
-    selection_identifiers = selection_df["strain"].unique()
+    selection_identifiers = selection_df["Virus name"].unique()
     with open(fasta_in, 'r') as f_in:
         with open(fasta_out, 'w') as f_out:
             for line in f_in:
                 if line[0] == '>':
                     # sequence identifier
-                    seq_id = line.rstrip('\n').lstrip('>')
+                    seq_id = line.rstrip('\n').lstrip('>').split('|')[0]
                     if seq_id in selection_identifiers:
                         f_out.write(line)
                         keep_line = True

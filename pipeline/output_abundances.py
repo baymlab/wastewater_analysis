@@ -5,6 +5,23 @@ import os
 import argparse
 import pandas as pd
 
+# according to https://outbreak.info/situation-reports#voc
+WHO_variants_2021_10_06 = {
+    "alpha" : ("B.1.1.7", "Q."),
+    "beta" : ("B.1.351", "B.1.351."),
+    "gamma" : ("P.1", "P.1."),
+    "delta" : ("B.1.617.2", "AY."),
+    "lambda" : ("C.37", "C.37."),
+    "mu" : ("B.1.621", "B.1.621."),
+    "C.1.2" : ("C.1.2"),
+    "eta" : ("B.1.525"),
+    "iota" : ("B.1.526", "B.1.526."),
+    "kappa" : ("B.1.617.1"),
+    "B.1.617.3" : ("B.1.617.3"),
+    "theta" : ("P.3"),
+    "B.1.1.318-related" : ("B.1.1.318", "AZ."),
+    "C.36.3-related" : ("C.36.6", "C.36.6.")
+}
 
 def main():
     parser = argparse.ArgumentParser(description="Plot abundances from file.")
@@ -12,6 +29,7 @@ def main():
     parser.add_argument('--metadata', type=str, help="metadata file")
     parser.add_argument('-m', dest='min_ab', type=float, default=0, help="minimal frequency (%) to output variant")
     parser.add_argument('--voc', dest='voc', type=str, help="comma-separated list of strains of interest, output abundance for these only")
+    parser.add_argument('--vocfile', dest='vocfile', type=str, help="json file with VOC info (see example); alternative to using --voc")
     parser.add_argument('-o', dest='outfile', type=str, help="write output to tsv file")
     args = parser.parse_args()
 
@@ -43,7 +61,7 @@ def main():
                 sys.exit(1)
             seqname = line[0]
             if args.metadata:
-                variant = df.loc[df["strain"] == seqname]["pangolin_lineage"]
+                variant = df.loc[df["Virus name"] == seqname]["Pango lineage"]
                 variant = variant.iloc[0]
             else:
                 variant = seqname

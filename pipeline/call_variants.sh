@@ -3,8 +3,8 @@
 #SBATCH -t 0-2:00
 #SBATCH -p short
 #SBATCH --mem=10G
-#SBATCH -o call_variants.out
-#SBATCH -e call_variants.err
+#SBATCH -o call_variants_%j.out
+#SBATCH -e call_variants_%j.err
 
 ref_dir=$1
 cd ${ref_dir}
