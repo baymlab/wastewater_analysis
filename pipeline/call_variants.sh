@@ -6,14 +6,16 @@
 #SBATCH -o call_variants_%j.out
 #SBATCH -e call_variants_%j.err
 
-ref_dir=$1
+ref_dir=$1 # directory with sequences for variant calling
+single_ref_path=$2 # path to single reference sequence to compare against
+
 cd ${ref_dir}
 
 while read lineage; do \
     cd $lineage;
     for fasta in *.fa; do \
         # align and sort
-        minimap2 -c -x asm20 --end-bonus 100 -t 20 --cs /n/data1/hms/dbmi/baym/jasmijn/wastewater/ref/NC_045512.2.fasta $fasta 2>${fasta%.fa}.paftools.log | sort -k6,6 -k8,8n > ${fasta%.fa}.paf && paftools.js call -s ${fasta%.fa} -L 100 -f /n/data1/hms/dbmi/baym/jasmijn/wastewater/ref/NC_045512.2.fasta ${fasta%.fa}.paf > ${fasta%.fa}.vcf 2>>${fasta%.fa}.paftools.log;
+        minimap2 -c -x asm20 --end-bonus 100 -t 20 --cs $single_ref_path $fasta 2>${fasta%.fa}.paftools.log | sort -k6,6 -k8,8n > ${fasta%.fa}.paf && paftools.js call -s ${fasta%.fa} -L 100 -f $single_ref_path ${fasta%.fa}.paf > ${fasta%.fa}.vcf 2>>${fasta%.fa}.paftools.log;
         bgzip -f ${fasta%.fa}.vcf;
         bcftools index -f ${fasta%.fa}.vcf.gz;
     done;
