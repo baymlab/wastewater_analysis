@@ -48,7 +48,7 @@ def read_metadata(metadata_file):
     # remove samples wich have no pangolin lineage assigned (NaN or None)
     df = df.loc[df["Pango lineage"].notna()]
     df = df.loc[df["Pango lineage"] != "None"]
-    # remove samples which are marked as incomplete or N-content > 1%
+    # remove samples which are marked as incomplete or N-Content > 1%
     df = df.astype({"Is complete?" : 'bool',
                     "N-Content" : 'float'})
     df = df.loc[(df["Is complete?"] == True) & (df["N-Content"] <= 0.01)]
@@ -68,7 +68,7 @@ def select_ref_genomes(metadata_df, max_per_lineage, vcf_list, freq_list, min_aa
     selection_ids = []
     for lin_id in lineages:
         samples = metadata_df.loc[metadata_df["Pango lineage"] == lin_id]
-        samples = samples.sort_values(by=["N-content", "Collection date"],
+        samples = samples.sort_values(by=["N-Content", "Collection date"],
                                       ascending=[True, False])
         # read allele frequencies and extract sites with AAF >= minimal alt allele frequency
         try:
