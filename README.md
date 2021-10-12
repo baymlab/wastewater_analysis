@@ -20,23 +20,30 @@ Required input data for this step is a fasta file with GISAID sequences and a
 matching metadata tsv file. Both the sequences (.fasta) and the metadata (.tsv)
 are publicly available on GISAID but *only after registration*.
 
-We begin by counting the number of non-ambiguous
-nucleotides per sequence:
+First we apply a quality filter while preprocessing GISAID sequences:
 
-    sed '/^>/d' sequences_2021-03-04_08-34.fasta | tr -d 'N' | awk '{ print length; }' > sequences_2021-03-04_08-34.nonN_chars.txt
+    python pipeline/preprocess_references.py -m <GISAID_metadata.tsv> -f <GISAID_sequences.fasta> -k 1000 --seed 0 --country USA ---o reference_set   
 
-Then, we apply a quality filter and compute allele frequencies per lineage:
+Note that this preprocessing script also allows you to specify a specific state
+to restrict the reference set to, by using the `--state` option.
+Similarly, you can restrict the sequences used by collection date using
+`--startdate` and `--enddate`.
+These dates must be provided in ISO format (Y-M-D).
 
-    python pipeline/preprocess_references.py -m <GISAID_metadata.tsv> -f <GISAID_sequences.fasta> -n <GISAID_nonN_chars_per_id.txt> -k 1000 --seed 0 --country USA --min_len 29500 -o reference_set   
+Then we call variants and compute allele frequencies per lineage:
+
     pipeline/call_variants.sh reference_set
 
 Based on these allele frequencies, we select sequences per lineage such that all
 mutations with an allele frequency of at least 50% were captured at least once.
 
-    python pipeline/select_samples.py -m <GISAID_metadata.tsv> -f <GISAID_sequences.fasta> -n <GISAID_nonN_chars_per_id.txt> -o reference_set --vcf reference_set/*_merged.vcf.gz --freq reference_set/*_merged.frq
+    python pipeline/select_samples.py -m <GISAID_metadata.tsv> -f <GISAID_sequences.fasta> -o reference_set --vcf reference_set/*_merged.vcf.gz --freq reference_set/*_merged.frq
+
+The resulting reference set is stored in `reference_set/sequences.fasta` and
+the corresponding metadata in `reference_set/metadata.tsv`.
 
 ### Pre-selected reference set
-GISAID sequence identifiers for the reference set used in our manuscript will be
+GISAID sequence identifiers for the reference set used in our manuscript are
 provided in `auxiliary_data/reference_set_03_2021.txt`.
 
 

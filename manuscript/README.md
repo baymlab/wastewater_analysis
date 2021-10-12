@@ -7,14 +7,23 @@ technique can be used with other wastewater sequencing techniques by expanding
 to samples taken across the United States in a similar timeframe. Below,
 we describe step by step how this analysis was done.
 
+*Note that these scripts are slightly different from the most recent scripts in the pipeline folder, because the GISAID metadata formatting has changed since. The scripts in this folder (manuscript) are applicable only to the GISAID metadata formatting from early 2021.*
+
 ## US-specific reference set
 Since all samples are taken from locations in the US, we work with a US-specific
 reference set. The reference set is constructed from the GISAID database
-(downloaded 9 March 2021) using the following commands:
+(downloaded 9 March 2021) using the following commands.
 
-    python pipeline/preprocess_references.py -m GISAID/metadata_2021-03-04_10-31.tsv -f GISAID/sequences_2021-03-04_08-34.fasta -k 1000 --seed 0 --country USA --min_len 29500 -o reference_set -n GISAID/sequences_2021-03-04_08-34.nonN_chars_per_id.txt
+We begin by counting the number of non-ambiguous
+nucleotides per sequence:
+
+    sed '/^>/d' sequences_2021-03-04_08-34.fasta | tr -d 'N' | awk '{ print length; }' > sequences_2021-03-04_08-34.nonN_chars.txt
+
+Next, we preprocess references, call variants, select references and build a kallisto index:
+
+    python manuscript/preprocess_references_v1.py -m GISAID/metadata_2021-03-04_10-31.tsv -f GISAID/sequences_2021-03-04_08-34.fasta -k 1000 --seed 0 --country USA --min_len 29500 -o reference_set -n GISAID/sequences_2021-03-04_08-34.nonN_chars_per_id.txt
     sbatch pipeline/call_variants.sh reference_set
-    python pipeline/select_samples.py -m GISAID/metadata_2021-03-04_10-31.tsv -f GISAID/sequences_2021-03-04_08-34.fasta -o reference_set -n GISAID/sequences_2021-03-04_08-34.nonN_chars_per_id.txt --vcf reference_set/*_merged.vcf.gz --freq reference_set/*_merged.frq
+    python manuscript/select_samples_v1.py -m GISAID/metadata_2021-03-04_10-31.tsv -f GISAID/sequences_2021-03-04_08-34.fasta -o reference_set -n GISAID/sequences_2021-03-04_08-34.nonN_chars_per_id.txt --vcf reference_set/*_merged.vcf.gz --freq reference_set/*_merged.frq
     kallisto index -i reference_set/sequences.kallisto_idx reference_set/sequences.fasta
 
 
@@ -36,7 +45,7 @@ Then, we run kallisto on each of these benchmarks:
     min_ab=0.1
     ref_dir=reference_set
     for dataset in Connecticut-WG-2021-02-11-100x Connecticut-WG-2021-02-11-1000x Connecticut-2021-02-11-100x Connecticut-2021-02-11-1000x Connecticut-2021-02-11-10000x; do \
-        sbatch benchmarking/run_kallisto_ref_sets.sh ${dataset} ${bootstraps} ${ref_dir} ${min_ab};
+        sbatch manuscript/run_kallisto_ref_sets.sh ${dataset} ${bootstraps} ${ref_dir} ${min_ab};
     done
 
 
@@ -48,8 +57,8 @@ We preprocess sequencing data to remove adapters and primers from the reads:
 
 Then, we predict variant abundance from the wastewater sequencing data:
 
-    sbatch pipeline/run_kallisto.sh new_haven_ids.txt reference_set yale/yale-batch3 kallisto_refs_USA 100
-    sbatch pipeline/run_kallisto.sh ginkgo_1_ids.txt reference_set biobot/analysis_july_5 kallisto_refs_USA 100
+    sbatch manuscript/run_kallisto.sh new_haven_ids.txt reference_set yale/yale-batch3 kallisto_refs_USA 100
+    sbatch manuscript/run_kallisto.sh ginkgo_1_ids.txt reference_set biobot/analysis_july_5 kallisto_refs_USA 100
 
 
 ## Analysis
