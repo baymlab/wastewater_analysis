@@ -75,5 +75,11 @@ Finally, the kallisto output can be processed to obtain variant abundance estima
 
     python pipeline/output_abundances.py -m <min_ab> -o <outdir>/predictions.tsv --metadata reference_set/metadata.tsv --voc B.1.1.7,B.1.351,B.1.427,B.1.429,B.1.526,P.1 <outdir>/abundance.tsv
 
-Lineages of interest are provided as a comma-separated list with `--voc` (see above).
-The predicted abundances for these lineages are written to `<outdir>/abundance.tsv`.
+In this command, lineages of interest can be provided as a comma-separated list with 
+`--voc` (see above).
+Alternatively, variants can be defined as combinations of lineages in a json file 
+(see auxiliary_data/WHO_variants_2021-10-06.json for an example) by using `--voc_file`.
+If neither `--voc` nor `--voc_file` are provided, abundance predictions for ALL lineages 
+in the reference set are written to the output file.
+
+The predictions are written to `<outdir>/predictions.tsv`, unless specified otherwise with `-o`.
