@@ -22,7 +22,7 @@ are publicly available on GISAID but *only after registration*.
 
 First we apply a quality filter while preprocessing GISAID sequences:
 
-    python pipeline/preprocess_references.py -m <GISAID_metadata.tsv> -f <GISAID_sequences.fasta> -k 1000 --seed 0 --country USA ---o reference_set   
+    python pipeline/preprocess_references.py -m <GISAID_metadata.tsv> -f <GISAID_sequences.fasta> -k 1000 --seed 0 --country USA --o reference_set   
 
 Note that this preprocessing script also allows you to specify a specific state
 to restrict the reference set to, by using the `--state` option.
@@ -30,9 +30,11 @@ Similarly, you can restrict the sequences used by collection date using
 `--startdate` and `--enddate`.
 These dates must be provided in ISO format (Y-M-D).
 
-Then we call variants and compute allele frequencies per lineage:
+Then we call variants compared to the original SARS-CoV-2 reference (here we use 
+[NC_045512.2](https://www.ncbi.nlm.nih.gov/nuccore/NC_045512))
+and compute allele frequencies per lineage:
 
-    pipeline/call_variants.sh reference_set
+    pipeline/call_variants.sh reference_set <path_to_main_ref_fasta>
 
 Based on these allele frequencies, we select sequences per lineage such that all
 mutations with an allele frequency of at least 50% were captured at least once.
