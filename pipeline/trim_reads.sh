@@ -30,8 +30,8 @@ while read sample; do
     java -jar ~/jvarkit/dist/biostar84452.jar --samoutputformat BAM <(samtools sort ${outdir}/ivar/${sample}.bam) > ${outdir}/ivar/${sample}.trimmed.bam;
     # extract fastqs
     samtools fastq -1 ${outdir}/ivar/${sample}.forward.fastq -2 ${outdir}/ivar/${sample}.reverse.fastq -s ${outdir}/ivar/${sample}.singles.fastq <(samtools sort -n ${outdir}/ivar/${sample}.trimmed.bam);
-    # extract reads aligning to spike (21063-25884)
-    samtools index ${outdir}/ivar/${sample}.trimmed.bam;
-    samtools view -bh ${outdir}/ivar/${sample}.trimmed.bam "MN908947.3:21063-25884" > ${outdir}/ivar/${sample}.trimmed.spike.bam
-    samtools fastq -1 ${outdir}/ivar/${sample}_spike.forward.fastq -2 ${outdir}/ivar/${sample}_spike.reverse.fastq -s ${outdir}/ivar/${sample}_spike.singles.fastq <(samtools sort -n ${outdir}/ivar/${sample}.trimmed.spike.bam);
+    # # extract reads aligning to spike (21063-25884)
+    # samtools index ${outdir}/ivar/${sample}.trimmed.bam;
+    # samtools view -bh ${outdir}/ivar/${sample}.trimmed.bam "MN908947.3:21063-25884" > ${outdir}/ivar/${sample}.trimmed.spike.bam
+    # samtools fastq -1 ${outdir}/ivar/${sample}_spike.forward.fastq -2 ${outdir}/ivar/${sample}_spike.reverse.fastq -s ${outdir}/ivar/${sample}_spike.singles.fastq <(samtools sort -n ${outdir}/ivar/${sample}.trimmed.spike.bam);
 done < ${sample_ids}
