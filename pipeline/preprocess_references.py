@@ -30,6 +30,13 @@ def main():
 
     # read metadata
     metadata_df = read_metadata(args.metadata)
+    # remove duplicate sequences
+    metadata_df.drop_duplicates(subset=["Virus name",
+                                        "Collection date",
+                                        "Submission date"],
+                                inplace=True,
+                                ignore_index=True)
+    # extract lineage info
     lineages = metadata_df["Pango lineage"].unique()
 
     # select sequences
@@ -118,10 +125,10 @@ def main():
                     seq = ""
                     keep_line = True
                     selection_idx += 1
-                    # print("keeping sequence {}".format(seq_id))
+                    # now remove key from dict to avoid writing duplicates
+                    del selection_dict[seq_id]
                 except KeyError as e:
                     # item not found as sequence was not selected
-                    # print("not keeping sequence {}".format(seq_id))
                     keep_line = False
             elif keep_line:
                 # append nucleotide sequence

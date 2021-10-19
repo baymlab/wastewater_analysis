@@ -74,7 +74,7 @@ def select_ref_genomes(metadata_df, max_per_lineage, vcf_list, freq_list, min_aa
         try:
             allele_freq_file = freq_dict[lin_id]
         except KeyError as e:
-            print("WARNING: skipping lineage {}, allele frequency info missing".format(lin_id))
+            print("Skipping lineage {}, allele frequency info missing".format(lin_id))
             continue
         variant_positions = []
         with open(allele_freq_file, 'r') as f:
@@ -94,7 +94,7 @@ def select_ref_genomes(metadata_df, max_per_lineage, vcf_list, freq_list, min_aa
         try:
             vcf_file = vcf_dict[lin_id]
         except KeyError as e:
-            print("WARNING: skipping lineage {}, VCF info missing".format(lin_id))
+            print("Skipping lineage {}, VCF info missing".format(lin_id))
             continue
         vcf_reader = vcf.Reader(open(vcf_file, 'rb'))
         samples = vcf_reader.samples
@@ -148,9 +148,12 @@ def filter_fasta(fasta_in, fasta_out, selection_df):
                 if line[0] == '>':
                     # sequence identifier
                     seq_id = line.rstrip('\n').lstrip('>').split('|')[0]
-                    if seq_id in selection_identifiers:
+                    if len(selection_identifiers) == 0:
+                        break
+                    elif seq_id in selection_identifiers:
                         f_out.write(line)
                         keep_line = True
+                        selection_identifiers.remove(seq_id)
                     else:
                         keep_line = False
                 elif keep_line:
