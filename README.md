@@ -30,9 +30,12 @@ Similarly, you can restrict the sequences used by collection date using
 `--startdate` and `--enddate`.
 These dates must be provided in ISO format (Y-M-D).
 
-Then we call variants compared to the original SARS-CoV-2 reference (here we use 
+Then we call variants compared to the original SARS-CoV-2 reference (here we use
 [NC_045512.2](https://www.ncbi.nlm.nih.gov/nuccore/NC_045512))
-and compute allele frequencies per lineage:
+and compute allele frequencies per lineage. Note that this requires
+`vcftools`, `bcftools`, `samtools` and `minimap2` to be installed, which
+can all be installed through [bioconda](http://bioconda.github.io).
+We run the following script to call variants:
 
     pipeline/call_variants.sh reference_set <path_to_main_ref_fasta>
 
@@ -77,11 +80,11 @@ Finally, the kallisto output can be processed to obtain variant abundance estima
 
     python pipeline/output_abundances.py -m <min_ab> -o <outdir>/predictions.tsv --metadata reference_set/metadata.tsv --voc B.1.1.7,B.1.351,B.1.427,B.1.429,B.1.526,P.1 <outdir>/abundance.tsv
 
-In this command, lineages of interest can be provided as a comma-separated list with 
+In this command, lineages of interest can be provided as a comma-separated list with
 `--voc` (see above).
-Alternatively, variants can be defined as combinations of lineages in a json file 
+Alternatively, variants can be defined as combinations of lineages in a json file
 (see auxiliary_data/WHO_variants_2021-10-06.json for an example) by using `--voc_file`.
-If neither `--voc` nor `--voc_file` are provided, abundance predictions for ALL lineages 
+If neither `--voc` nor `--voc_file` are provided, abundance predictions for ALL lineages
 in the reference set are written to the output file.
 
 The predictions are written to `<outdir>/predictions.tsv`, unless specified otherwise with `-o`.
