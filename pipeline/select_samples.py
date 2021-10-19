@@ -141,7 +141,7 @@ def select_ref_genomes(metadata_df, max_per_lineage, vcf_list, freq_list, min_aa
 def filter_fasta(fasta_in, fasta_out, selection_df):
     """Filter fasta according to selected metadata"""
     keep_line = False
-    selection_identifiers = selection_df["Virus name"].unique()
+    selection_identifiers = list(selection_df["Virus name"].unique())
     with open(fasta_in, 'r') as f_in:
         with open(fasta_out, 'w') as f_out:
             for line in f_in:
