@@ -77,19 +77,30 @@ def select_ref_genomes(metadata_df, max_per_lineage, vcf_list, freq_list, min_aa
             print("Skipping lineage {}, allele frequency info missing".format(lin_id))
             continue
         variant_positions = []
+        variant_alleles = {}
         with open(allele_freq_file, 'r') as f:
             for line in f:
                 line = line.split('\t')
                 if line[0] == "CHROM":
                     continue
+                ref_pos = int(line[1])
                 ref_info = line[4]
                 ref_allele, freq = ref_info.split(':')
                 ref_allele_freq = float(freq)
-                alt_allele_freq = 1 - ref_allele_freq
-                if alt_allele_freq > min_aaf:
-                    variant_positions.append(int(line[1]))
-        print("{} total # sites with alt allele frequency > {} = {}".format(
-                lin_id, min_aaf, len(variant_positions)))
+                alt_alleles = line[5:]
+                keep_alleles = []
+                for alt_info in alt_alleles:
+                    alt_allele, freq = alt_info.split(':')
+                    alt_allele_freq = float(freq)
+                    if alt_allele_freq > min_aaf:
+                        keep_alleles.append(alt_allele)
+                if len(keep_alleles) > 0:
+                    variant_positions.append(ref_pos)
+                    variant_alleles[ref_pos] = keep_alleles
+        print("Filtering mutations for alt allele frequencies > {}".format(
+                                                                    min_aaf))
+        print("{} total # mutation sites kept = {}".format(
+                lin_id, len(variant_positions)))
         # read vcf and process samples
         try:
             vcf_file = vcf_dict[lin_id]
@@ -118,9 +129,10 @@ def select_ref_genomes(metadata_df, max_per_lineage, vcf_list, freq_list, min_aa
                 variation = sample_patterns[sample]
                 for i, pos in enumerate(variant_positions):
                     allele = variation[i]
-                    if allele not in variation_seen[pos]:
-                        select = True
-                        variation_seen[pos].append(allele)
+                    if allele in variant_alleles[pos]:
+                        if allele not in variation_seen[pos]:
+                            select = True
+                            variation_seen[pos].append(allele)
                 if select:
                     selection_ids.append(sample)
                     selection_count += 1
