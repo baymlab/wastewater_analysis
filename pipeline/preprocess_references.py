@@ -158,10 +158,10 @@ def read_metadata(metadata_file):
     # remove samples wich have no pangolin lineage assigned (NaN or None)
     df = df.loc[df["Pango lineage"].notna()]
     df = df.loc[df["Pango lineage"] != "None"]
-    # remove samples which are marked as incomplete or N-content > 1%
+    # remove samples which are marked as incomplete or N-content > 0.1%
     df = df.astype({"Is complete?" : 'bool',
                     "N-Content" : 'float'})
-    df = df.loc[(df["Is complete?"] == True) & (df["N-Content"] <= 0.01)]
+    df = df.loc[(df["Is complete?"] == True) & (df["N-Content"] <= 0.001)]
     return df
 
 
