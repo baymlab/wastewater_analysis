@@ -37,7 +37,7 @@ def main():
         print("Outputting abundance for ALL reference sequences")
         variants_dict = {}
 
-    print(variants_dict)
+    # print(variants_dict)
 
     lineage_to_variant = {}
     if args.voc or args.voc_file:

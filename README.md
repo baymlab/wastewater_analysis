@@ -37,9 +37,12 @@ and compute allele frequencies per lineage. Note that this requires
 can all be installed through [bioconda](http://bioconda.github.io).
 We run the following script to call variants:
 
-    pipeline/call_variants.sh reference_set <path_to_main_ref_fasta>
+    pipeline/call_variants.sh reference_set <full_path_to_main_ref_fasta>
 
-Based on these allele frequencies, we select sequences per lineage such that all
+Please make sure to provide the full path to the main reference sequence
+(for example `/Users/username/wastewater_analysis/references/ref.fa`).
+
+Based on the resulting allele frequencies, we select sequences per lineage such that all
 mutations with an allele frequency of at least 50% were captured at least once.
 
     python pipeline/select_samples.py -m <GISAID_metadata.tsv> -f <GISAID_sequences.fasta> -o reference_set --vcf reference_set/*_merged.vcf.gz --freq reference_set/*_merged.frq
@@ -88,3 +91,25 @@ If neither `--voc` nor `--voc_file` are provided, abundance predictions for ALL 
 in the reference set are written to the output file.
 
 The predictions are written to `<outdir>/predictions.tsv`, unless specified otherwise with `-o`.
+
+
+## Example
+
+The `example` directory contains a small example to test the prediction step.
+A toy example of reference sequences is given in `sequences.fa` with metadata in
+`metadata.tsv`.
+
+    cd example
+    python ../pipeline/preprocess_references.py -m metadata.tsv -f sequences.fa -k 10 --seed 0 -o reference_set
+    bash ../pipeline/call_variants.sh reference_set "${PWD}/SARS-CoV-2-NC_045513.fasta"
+    python ../pipeline/select_samples.py -m metadata.tsv -f sequences.fa -o reference_set --vcf reference_set/*_merged.vcf.gz --freq reference_set/*_merged.frq
+    kallisto index -i reference_set/sequences.kallisto_idx reference_set/sequences.fasta
+    kallisto quant -t 20 -b 0 -i reference_set/sequences.kallisto_idx -o kallisto -t 1 input_1.fastq input_2.fastq
+    python ../pipeline/output_abundances.py --metadata metadata.tsv -o kallisto/predictions.tsv kallisto/abundance.tsv
+
+The predictions can be found in `kallisto/predictions.tsv` and should show that
+100% of this sample is SARS-CoV-2.
+
+*Note that this is just a toy example, do NOT use this reference set for any of
+datasets that you actually want to analyze. Download the GISAID data and build
+a good reference set first.*

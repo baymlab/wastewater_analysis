@@ -99,7 +99,6 @@ def main():
         lineages_with_sequence.append(lin_id)
 
     print("{} sequences selected".format(len(selection_dict.keys())))
-
     # write sequences to separate files
     print("searching fasta and writing sequences to output directory...")
     with open(args.fasta_in, 'r') as f_in:
@@ -120,7 +119,7 @@ def main():
                     print("{} sequences from input fasta processed".format(line_idx))
                     print("{} sequences from selection found".format(selection_idx))
                 # seq_id = line.rstrip('\n').lstrip('>').split('|')[0]
-                seq_id = line.rstrip('\n').lstrip('>')
+                seq_id = line.rstrip('\n').lstrip('>').split()[0]
                 try:
                     lin_id, gisaid_id = selection_dict[seq_id]
                     seq = ""
