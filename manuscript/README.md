@@ -27,7 +27,7 @@ Next, we preprocess references, call variants, select references and build a kal
     kallisto index -i reference_set/sequences.kallisto_idx reference_set/sequences.fasta
 
 
-## Benchmarking
+## Benchmarking experiments
 To evaluate the accuracy of the predictions obtained through our pipeline, we
 created a collection of benchmarking datasets based on GISAID sequences in
 Connecticut on 2021-03-04.
@@ -49,7 +49,7 @@ Then, we run kallisto on each of these benchmarks:
     done
 
 
-## Sequencing data
+## Experiments on real sequencing data
 We preprocess sequencing data to remove adapters and primers from the reads:
 
     sbatch pipeline/trim_reads.sh ginkgo_1_fastqs analysis_july_5 ginkgo_1_ids.txt auxiliary_data/adapters.fa auxiliary_data/primers.bed MN908947.3.DNA.fasta
