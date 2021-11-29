@@ -33,7 +33,7 @@ These dates must be provided in ISO format (Y-M-D).
 Then we call variants compared to the original SARS-CoV-2 reference (here we use
 [NC_045512.2](https://www.ncbi.nlm.nih.gov/nuccore/NC_045512))
 and compute allele frequencies per lineage. Note that this requires
-`vcftools`, `bcftools`, `samtools` and `minimap2` to be installed, which
+`pyvcf`, `vcftools`, `bcftools`, `samtools` and `minimap2` to be installed, which
 can all be installed through [bioconda](http://bioconda.github.io).
 We run the following script to call variants:
 
