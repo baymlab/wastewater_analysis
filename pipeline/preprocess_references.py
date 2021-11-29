@@ -80,9 +80,10 @@ def main():
             continue
         elif select_n == 1:
             gisaid_id = selection["Accession ID"].item()
-            seq_name = "{}|{}|{}".format(selection["Virus name"].item(),
-                                         selection["Collection date"].item(),
-                                         selection["Submission date"].item())
+            seq_name = selection["Virus name"].item()
+            # seq_name = "{}|{}|{}".format(selection["Virus name"].item(),
+            #                              selection["Collection date"].item(),
+            #                              selection["Submission date"].item())
             # print(seq_name)
             selection_dict[seq_name] = (lin_id, gisaid_id)
         else:
@@ -91,9 +92,10 @@ def main():
             collection_dates = list(selection["Collection date"])
             submission_dates = list(selection["Submission date"])
             for i, gisaid_id in enumerate(gisaid_ids):
-                seq_name = '{}|{}|{}'.format(seq_names[i],
-                                             collection_dates[i],
-                                             submission_dates[i])
+                seq_name = seq_names[i]
+                # seq_name = '{}|{}|{}'.format(seq_names[i],
+                #                              collection_dates[i],
+                #                              submission_dates[i])
                 # print(seq_name)
                 selection_dict[seq_name] = (lin_id, gisaid_id)
         lineages_with_sequence.append(lin_id)
@@ -118,8 +120,8 @@ def main():
                 if args.verbose and line_idx % 100000 == 0:
                     print("{} sequences from input fasta processed".format(line_idx))
                     print("{} sequences from selection found".format(selection_idx))
-                # seq_id = line.rstrip('\n').lstrip('>').split('|')[0]
-                seq_id = line.rstrip('\n').lstrip('>').split()[0]
+                seq_id = line.rstrip('\n').lstrip('>').split('|')[0]
+                # seq_id = line.rstrip('\n').lstrip('>').split()[0]
                 try:
                     lin_id, gisaid_id = selection_dict[seq_id]
                     seq = ""
