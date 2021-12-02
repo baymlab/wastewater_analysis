@@ -14,6 +14,7 @@ def main():
     parser.add_argument('-f, --fasta', dest='fasta_in', type=str, help="fasta file representing full sequence database")
     parser.add_argument('-k', dest='select_k', type=int, default=1000, help="randomly select 1000 sequences per lineage")
     parser.add_argument('--max_N_content', type=float, default=0.01, help="remove genomes with N rate exceeding this threshold; default = 0.01 (1%)")
+    parser.add_argument('--continent', dest='continent', type=str, help="only consider sequences found in specified continent")
     parser.add_argument('--country', dest='country', type=str, help="only consider sequences found in specified country")
     parser.add_argument('--state', dest='state', type=str, help="only consider sequences found in specified state")
     parser.add_argument('--startdate', dest='startdate', type=dt.date.fromisoformat, help="only consider sequences found on or after this date; input should be ISO format")
@@ -59,6 +60,10 @@ def main():
                                  ignore_index=True)
         samples[["continent", "country", "state"]] = \
             samples["Location"].str.split(" / ", n=2, expand=True)
+        if args.continent:
+            samples = samples.loc[samples["continent"] == args.continent]
+        else:
+            samples = samples.loc[samples["continent"] != "."]
         if args.country:
             samples = samples.loc[samples["country"] == args.country]
         else:
