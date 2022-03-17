@@ -69,6 +69,8 @@ def main():
                 sys.exit(1)
             seqname = line[0].split('|')[0]
             lineage = df.loc[df["Virus name"] == seqname]["Pango lineage"]
+            if lineage.empty:
+                print("ERROR: sequence {} not found in metadata".format(seqname))
             lineage = lineage.iloc[0]
             if abundance_format == "kallisto":
                 tpm = float(line[-1])
