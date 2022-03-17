@@ -14,6 +14,7 @@ def main():
     parser.add_argument('--predictions', type=str, nargs='+', help="prediction files")
     parser.add_argument('--voc', type=str, required=True)
     parser.add_argument('--repeats', type=int, required=True)
+    parser.add_argument('--show_data_points', type=bool, action='store_true')
     parser.add_argument('-o,--outfile', dest='outfile', required=True)
     args = parser.parse_args()
 
@@ -55,6 +56,8 @@ def main():
                          'legend.title_fontsize': 10})
 
     ax = sns.boxplot(data=df) #, color='grey'
+    if args.show_data_points:
+        ax = sns.swarmplot(data=df, color=".25")
     # plt.ylim(0, 100)
     # plt.title(sample_id)
     plt.xlabel("Genome coverage (%)")
