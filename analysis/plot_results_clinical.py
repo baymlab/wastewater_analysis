@@ -29,6 +29,7 @@ def main():
     parser.add_argument('--voc', type=str, required=True, help="VOC to plot")
     parser.add_argument('--predictions', type=str, required=True, help="prediction csv")
     parser.add_argument('--clinical_data', type=str, required=True, help="add clinical data to plot")
+    parser.add_argument('--qpcr_data', type=str, help="add qPCR data to plot")
     parser.add_argument('--aln_stats', type=str, nargs='+', help="basic alignment stats by samtools (including coverage info)")
     parser.add_argument('--sample_rna_levels', type=str, help="csv file containing sample RNA levels (copies/mL)")
     parser.add_argument('--fig_width', type=float, help="figure width")
@@ -54,6 +55,13 @@ def main():
     df["copies/mL"] = df["copies/mL"].astype("float")
     df["CT undiluted"] = df["CT undiluted"].astype("float")
 
+    if args.qpcr_data:
+        # read qPCR data
+        qpcr_df = pd.read_csv(args.qpcr_data,
+                              sep=',',
+                              header=0,
+                              dtype=float,
+                              parse_dates=["Date"])
 
     # read clinical data
     clinical_df = pd.read_csv(args.clinical_data,
@@ -114,6 +122,10 @@ def main():
     plt.plot_date(prediction_dates, df["rolling_av"], '-', color='navy',
                   label="Wastewater rolling average (window=3)")
     # plt.errorbar(prediction_dates, predictions, yerr=conf_intervals)
+    if args.qpcr_data:
+        plt.plot_date(qpcr_df["Date"], qpcr_df["Percentage Alpha"],
+                      label="qPCR estimate % likely Alpha",
+                      marker='o')
 
     # add RNA levels per sample
     if args.sample_rna_levels:
