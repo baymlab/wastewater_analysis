@@ -126,7 +126,7 @@ def main():
         plt.plot_date(qpcr_df["Date"], qpcr_df["Percentage Alpha"],
                       label="qPCR estimate % likely Alpha",
                       marker='.',
-                      markersize=15,
+                      markersize=8,
                       color='darkorange')
 
     # add RNA levels per sample
