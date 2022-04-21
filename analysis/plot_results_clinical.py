@@ -104,13 +104,20 @@ def main():
                   'g-',
                   marker='^',
                   ms=4,
-                  label="Clinical samples")
+                  label="Clinical sequencing")
+
+    if args.qpcr_data:
+      plt.plot_date(qpcr_df["Date"], qpcr_df["Percentage Alpha"],
+                    label="Wastewater qPCR estimate % likely Alpha",
+                    marker='.',
+                    markersize=8,
+                    color='darkorange')
     # print(voc)
     # print(clinical_df.head(100))
     # plot predictions
     predictions = df[voc]
     prediction_dates = pd.to_datetime(df["Date"])
-    plt.bar(prediction_dates, predictions, label="Wastewater samples")
+    plt.bar(prediction_dates, predictions, label="Wastewater sequencing")
     ax = plt.gca()
     # change xticks: ticks and date at data points
     # plt.xticks(prediction_dates,
@@ -120,14 +127,8 @@ def main():
     # add tick markers at data points
     plt.plot_date(prediction_dates, [-2 for x in prediction_dates], marker=3, color='navy')
     plt.plot_date(prediction_dates, df["rolling_av"], '-', color='navy',
-                  label="Wastewater rolling average (window=3)")
+                  label="Wastewater sequencing rolling average (window=3)")
     # plt.errorbar(prediction_dates, predictions, yerr=conf_intervals)
-    if args.qpcr_data:
-        plt.plot_date(qpcr_df["Date"], qpcr_df["Percentage Alpha"],
-                      label="qPCR estimate % likely Alpha",
-                      marker='.',
-                      markersize=8,
-                      color='darkorange')
 
     # add RNA levels per sample
     if args.sample_rna_levels:
