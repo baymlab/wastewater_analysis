@@ -125,7 +125,8 @@ def main():
     if args.qpcr_data:
         plt.plot_date(qpcr_df["Date"], qpcr_df["Percentage Alpha"],
                       label="qPCR estimate % likely Alpha",
-                      marker='o')
+                      marker='.',
+                      color='darkorange')
 
     # add RNA levels per sample
     if args.sample_rna_levels:
