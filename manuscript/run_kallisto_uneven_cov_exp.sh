@@ -3,8 +3,8 @@
 #SBATCH -t 0-11:00
 #SBATCH -p short
 #SBATCH --mem=20G
-#SBATCH -o logs/run_kallisto_%j.out
-#SBATCH -e logs/run_kallisto_%j.err
+#SBATCH -o run_kallisto.out
+#SBATCH -e run_kallisto.err
 
 dataset=$1
 ref_dir=$2
@@ -28,5 +28,5 @@ for dir in B.1.1.7_ab*_s*; do \
         --metadata ${ref_dir}/metadata.tsv \
         ${outdir}/${dir}/abundance.tsv \
         >> ${outdir}/${dir}.log 2>&1
-    echo $dir; 
+    echo $dir;
 done
