@@ -6,10 +6,10 @@
 #SBATCH -o run_kallisto.out
 #SBATCH -e run_kallisto.err
 
-dataset=$1
-ref_dir=$2
-min_ab=$3
-code_base=$4
+
+ref_dir=$1
+min_ab=$2
+code_base=$3
 
 HDF5_USE_FILE_LOCKING=FALSE # prevent HDF5 problems (https://github.com/pachterlab/kallisto/issues/197)
 
