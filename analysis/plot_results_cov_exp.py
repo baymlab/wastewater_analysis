@@ -14,7 +14,7 @@ def main():
     parser.add_argument('--predictions', type=str, nargs='+', help="prediction files")
     parser.add_argument('--voc', type=str, required=True)
     parser.add_argument('--repeats', type=int, required=True)
-    parser.add_argument('--show_data_points', type=bool, action='store_true')
+    parser.add_argument('--show_data_points', action='store_true')
     parser.add_argument('-o,--outfile', dest='outfile', required=True)
     args = parser.parse_args()
 
