@@ -107,11 +107,13 @@ def main():
                   label="Clinical sequencing")
 
     if args.qpcr_data:
-      plt.plot_date(qpcr_df["Date"], qpcr_df["Percentage Alpha"],
-                    label="Wastewater qPCR estimate % likely Alpha",
-                    marker='.',
-                    markersize=8,
-                    color='darkorange')
+        plt.errorbar(qpcr_df["Date"], qpcr_df["Percentage Alpha"],
+                     yerr=[[qpcr_df["Min Alpha"], qpcr_df["Max Alpha"]]])
+        # plt.plot_date(qpcr_df["Date"], qpcr_df["Percentage Alpha"],
+        #               label="Wastewater qPCR estimate % likely Alpha",
+        #               marker='.',
+        #               markersize=8,
+        #               color='darkorange')
     # print(voc)
     # print(clinical_df.head(100))
     # plot predictions
