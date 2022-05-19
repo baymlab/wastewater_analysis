@@ -60,7 +60,7 @@ def main():
     if args.show_data_points:
         ax = sns.swarmplot(data=df, color=".25")
     if args.original_prediction:
-        graph.axhline(y=args.original_prediction, linestyle='--', color='black')
+        plt.axhline(y=args.original_prediction, linestyle='--', color='black')
     # plt.ylim(0, 100)
     # plt.title(sample_id)
     plt.xlabel("Genome coverage (%)")
