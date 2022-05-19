@@ -108,7 +108,7 @@ def main():
 
     if args.qpcr_data:
         plt.errorbar(qpcr_df["Date"], qpcr_df["Percentage Alpha"],
-                     yerr=[[qpcr_df["Min Alpha"], qpcr_df["Max Alpha"]]])
+                     yerr=[qpcr_df["Min Alpha"], qpcr_df["Max Alpha"]])
         # plt.plot_date(qpcr_df["Date"], qpcr_df["Percentage Alpha"],
         #               label="Wastewater qPCR estimate % likely Alpha",
         #               marker='.',
