@@ -58,7 +58,7 @@ def main():
     if args.qpcr_data:
         # read qPCR data
         qpcr_df = pd.read_csv(args.qpcr_data,
-                              sep=',',
+                              sep=';',
                               header=0,
                               dtype=float,
                               parse_dates=["Date"])
