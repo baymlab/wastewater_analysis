@@ -108,7 +108,9 @@ def main():
 
     if args.qpcr_data:
         plt.errorbar(qpcr_df["Date"], qpcr_df["Percentage Alpha"],
-                     yerr=[qpcr_df["Min Alpha"], qpcr_df["Max Alpha"]])
+                     linestyle='',
+                     yerr=[qpcr_df["Percentage Alpha"]-qpcr_df["Min Alpha"],
+                           qpcr_df["Max Alpha"]-qpcr_df["Percentage Alpha"]])
         # plt.plot_date(qpcr_df["Date"], qpcr_df["Percentage Alpha"],
         #               label="Wastewater qPCR estimate % likely Alpha",
         #               marker='.',
@@ -128,8 +130,8 @@ def main():
     #            ha="right")
     # add tick markers at data points
     plt.plot_date(prediction_dates, [-2 for x in prediction_dates], marker=3, color='navy')
-    plt.plot_date(prediction_dates, df["rolling_av"], '-', color='navy',
-                  label="Wastewater sequencing rolling average (window=3)")
+    # plt.plot_date(prediction_dates, df["rolling_av"], '-', color='navy',
+    #               label="Wastewater sequencing rolling average (window=3)")
     # plt.errorbar(prediction_dates, predictions, yerr=conf_intervals)
 
     # add RNA levels per sample
