@@ -15,6 +15,7 @@ def main():
     parser.add_argument('--voc', type=str, required=True)
     parser.add_argument('--repeats', type=int, required=True)
     parser.add_argument('--show_data_points', action='store_true')
+    parser.add_argument('--original_prediction', type=float)
     parser.add_argument('-o,--outfile', dest='outfile', required=True)
     args = parser.parse_args()
 
@@ -58,6 +59,8 @@ def main():
     ax = sns.boxplot(data=df) #, color='grey'
     if args.show_data_points:
         ax = sns.swarmplot(data=df, color=".25")
+    if args.original_prediction"
+        graph.axhline(y=args.original_prediction, linestyle='--', color='black')
     # plt.ylim(0, 100)
     # plt.title(sample_id)
     plt.xlabel("Genome coverage (%)")
