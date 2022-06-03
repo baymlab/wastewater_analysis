@@ -1,13 +1,17 @@
-# SARS-CoV-2 variant abundance estimation in wastewater
+# VLQ: Viral Lineage Quantification
+## A pipeline for lineage abundance estimation from wastewater sequencing data
 
-This repository contains all code used for the analysis presented in this
-manuscript. We show that by sequencing SARS-CoV-2 RNA in wastewater and applying
-computational techniques initially used for RNA-Seq quantification, we can
+This repository contains all code used for the SARS-CoV-2 variant abundance estimation in wastewater presented in [this manuscript](https://doi.org/10.1101/2021.08.31.21262938).
+We show that by sequencing SARS-CoV-2 RNA in wastewater and applying
+computational techniques initially used for transcriptome quantification, we can
 estimate the abundance of variants in wastewater samples.
 
 This computational pipeline can easily be reused for other wastewater samples.
 The exact scripts and commands used to analyze the data discussed in our
 manuscript can be found in the manuscript folder.
+
+If you use our pipeline for your own analysis, or want to refer to it for another reason, please cite our preprint:
+*Lineage abundance estimation for SARS-CoV-2 in wastewater using transcriptome quantification techniques.* J.A. Baaijens, A. Zulli, I.M. Ott, et al. medRxiv 2021.08.31.21262938; doi: https://doi.org/10.1101/2021.08.31.21262938
 
 
 ## Building a reference set
