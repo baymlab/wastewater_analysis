@@ -92,6 +92,22 @@ python analysis/plot_raw_predictions.py \
         --outdir $OUTDIR
 
 # figure S3
+# "relative prediction error for a mixture of two sequences with increasing edit distance"
+# jupyter notebook supplement/sequence_similarity_exp/analysis.ipynb
+
+# figure S4
+# "estimated vs true frequencies on benchmarks with amplicon bias"
+python analysis/plot_results_sim.py --voc B.1.1.7 -o $OUTDIR -v -m 0.1 ${HOMEDIR}/kallisto/benchmarks/amplicon_bias/B.1.1.7_ab*_s*/predictions_m0.1.tsv
+
+# figure S5
+# "relative prediction error for a mixture of two non-B.1.1.7 sequences using an increasing number of B.1.1.7 reference sequences"
+# jupyter notebook supplement/ref_count_bias/exp1/analysis.ipynb
+
+# figure S6
+# "relative prediction error for a mixture of BA.1 and BA.2 using an increasing number of BA.1 reference sequences"
+# jupyter notebook supplement/ref_count_bias/exp2/analysis.ipynb
+
+# figure S7
 # "additional benchmarking results"
 for dataset in Connecticut-2021-02-11-100x Connecticut-2021-02-11-1000x Connecticut-WG-2021-02-11-100x; do \
     for m in 0.1 1; do \
@@ -106,7 +122,11 @@ for dataset in Connecticut-2021-02-11-100x Connecticut-2021-02-11-1000x Connecti
     done;
 done
 
-# figure S4
+# figures S8, S9
+# see supplement/error_rate_exp for all scripts & details
+snakemake -s supplement/error_rate_exp/Snakefile
+
+# figure S10
 # "salmon versus kallisto abundance estimates per VOC"
 python analysis/plot_kallisto_vs_salmon.py \
         --kallisto ${HOMEDIR}/kallisto/benchmarks/Connecticut-WG-2021-02-11-1000x/*/predictions_m0.1.tsv \
@@ -116,7 +136,7 @@ python analysis/plot_kallisto_vs_salmon.py \
         -m 0.1 \
         --output_format png,svg
 
-# figure S5
+# figure S11
 # "sequencing depth along the genome obtained from sludge samples in New Haven, CT."
 python analysis/plot_coverage.py \
         --samples "FH1 (20%),EX1 (63%),ER2 (99%)" \
@@ -132,7 +152,19 @@ python analysis/plot_coverage.py \
         ${DATADIR}/yale/yale-batch3/ivar/ER2.trimmed.depth;
 # python analysis/plot_coverage.py -o ${OUTDIR}/depth_all.svg ${DATADIR}/yale/yale-batch3/ivar/*.trimmed.depth
 
-# figure S6 (subplots)
+
+# figure S12
+# "percent genome coverage versus Ct values for samples across the US"
+python analysis/plot_RNA_levels.py \
+        --run_info ${DATADIR}/biobot/analysis_july_5/kallisto_refs_USA/*/run_info.json \
+        --metadata ${DATADIR}/biobot/metadata_full.csv \
+        --aln_stats ${DATADIR}/biobot/analysis_july_5/ivar/*.stats \
+        -o $OUTDIR \
+        --outsuffix _biobot \
+        --outformat png,svg
+
+
+# figure S13 (subplots)
 # "predictions per VOC with confidence intervals based on bootstrap analysis for New Haven samples"
 for voc in B.1.1.7 B.1.351 B.1.427 B.1.429 B.1.526 P.1; do \
     python analysis/plot_bootstrap_results.py \
@@ -151,17 +183,7 @@ for voc in B.1.1.7 B.1.351 B.1.427 B.1.429 B.1.526 P.1; do \
         ${DATADIR}/yale/yale-batch3/kallisto_bootstrap_refs_USA/*/predictions_m0.tsv;
 done
 
-# figure S7
-# "percent genome coverage versus Ct values for samples across the US"
-python analysis/plot_RNA_levels.py \
-        --run_info ${DATADIR}/biobot/analysis_july_5/kallisto_refs_USA/*/run_info.json \
-        --metadata ${DATADIR}/biobot/metadata_full.csv \
-        --aln_stats ${DATADIR}/biobot/analysis_july_5/ivar/*.stats \
-        -o $OUTDIR \
-        --outsuffix _biobot \
-        --outformat png,svg
-
-# figure S8 (subplots)
+# figure S14 (subplots)
 # "predictions per VOC with confidence intervals based on bootstrap analysis for samples across the US"
 for voc in B.1.1.7 B.1.351 B.1.427 B.1.429 B.1.526 P.1; do \
     python analysis/plot_bootstrap_results.py \
