@@ -1,0 +1,13 @@
+# Name                    Version                   Build  Channel
+scipy                     1.6.2                    pypi_0    pypi
+seaborn                   0.11.1                   pypi_0    pypi
+samtools                  1.9                 h10a08f8_12    bioconda
+pyvcf                     0.6.8           py37hc8dfbb8_1002    conda-forge
+pysam                     0.16.0.1                 pypi_0    pypi
+python                    3.7.3                h33d41f4_1    conda-forge
+pandas                    1.0.1            py37hb3f55d8_0    conda-forge
+numpy                     1.17.3           py37h95a1406_0    conda-forge
+minimap2                  2.17                 hed695b0_3    bioconda
+bwa                       0.7.17               hed695b0_6    bioconda
+bbmap                     38.87                h1296035_0    bioconda
+kallisto                  0.46.2               h60f4f9f_2    bioconda
