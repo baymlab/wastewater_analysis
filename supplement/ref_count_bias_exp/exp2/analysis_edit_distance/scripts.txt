@@ -1,0 +1,6 @@
+1. minimap2 -a -x asm20 --end-bonus 100 -t 20 NC_045512.2.fasta sequences_filtered_10.fasta | samtools view -bh | samtools sort > sequences.bam
+
+2. samtools index sequences.bam
+
+3. python trim_seq.py --in_bam="sequences.bam" --out_fasta sequences_trimmed.fasta --amp_start 500 --amp_end 27800 --ref_id NC_045512.2 --verbose
+

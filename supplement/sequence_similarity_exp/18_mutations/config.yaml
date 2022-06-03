@@ -1,0 +1,11 @@
+metadata: "../sequences/metadata.tsv"
+sequences: "../sequences/all_sequences.fasta"
+metadata_ww:  "../sequences/metadata18m.tsv"
+sequences_ww: "../sequences/sequence_with_18_mutations.fasta"
+k: "1000"
+cov_ref_sample: /Users/ioanna/Projects/CSE3000_wastewater_project/data/SARS-CoV-2-NC_045513.fasta
+abundances: "50"
+vocs: "../sequences/SARS-CoV-2-NC_045513.fasta"
+coverage: "100"
+bootstraps: "0"
+min_ab: "1.0"

@@ -1,0 +1,8 @@
+rule output_predictions:
+    params:
+        bootstraps = "0",
+        min_ab = "0.1",
+        ref_set = "reference_set",
+        dataset = "benchmarks/ww_C.37vP.1"
+    shell:
+        "bash ../../manuscript/run_kallisto_ref_sets_v1.sh {params.dataset} {params.bootstraps} {params.ref_set} {params.min_ab}"

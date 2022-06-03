@@ -1,0 +1,19 @@
+
+
+rule build_kallisto_index:
+    input:
+        ref_set_seq = "reference_set" + "/sequences_filtered_9.fasta"
+    output:
+        kallisto_index = "reference_set" + "/sequences.kallisto_idx"
+    shell:
+        "kallisto index -i {output.kallisto_index} {input.ref_set_seq}"
+
+
+rule output_predictions:
+    params:
+        bootstraps = "0",
+        min_ab = "0",
+        ref_set = "reference_set",
+        dataset = "benchmarks/ww_BA.1vBA.2"
+    shell:
+        "bash ../../manuscript/run_kallisto_ref_sets_v1.sh {params.dataset} {params.bootstraps} {params.ref_set} {params.min_ab}"

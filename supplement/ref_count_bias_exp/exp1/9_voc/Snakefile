@@ -1,0 +1,72 @@
+
+configfile: "config.yaml"
+
+rule preprocess_data:   
+    input: 
+        metadata = config['metadata'],
+        sequences = config['sequences']
+    params:
+        ref_set = "reference_set"
+    shell:
+        "python ../../manuscript/preprocess_references_v1.py -m {input.metadata} -f {input.sequences} --seed 0 -o {params.ref_set}"
+
+
+rule calculate_variation_of_ref_set:
+    input:
+        ref_set = "reference_set",
+        cov_ref_sample = config['cov_ref_sample']
+    shell:
+        "bash ../../pipeline/call_variants.sh {input.ref_set} {input.cov_ref_sample}"
+
+# bash ../../pipeline/call_variants.sh reference_set /Users/ioanna/Projects/CSE3000_wastewater_project/data/SARS-CoV-2-NC_045513.fasta
+
+rule sample_selection:
+    input:
+        metadata = config['metadata'],
+        sequences = config['sequences'],
+        vcf_files = "reference_set/*_merged.vcf.gz",
+        freq_files = "reference_set/*_merged.frq"   
+    output:
+        ref_set = "reference_set",
+    shell:
+        "python ../../manuscript/select_samples_v1.py -m {input.metadata} -f {input.sequences} -o {output.ref_set} --vcf {input.vcf_files} --freq {input.freq_files}"
+
+# python ../../manuscript/select_samples_v1.py -m ../sequences/all_metadata.tsv -f ../sequences/all_sequences.fasta -o reference_set --vcf reference_set/*_merged.vcf.gz --freq reference_set/*_merged.frq
+
+rule build_kallisto_index:
+    input:
+        ref_set_seq = "reference_set" + "/sequences.fasta"
+    output:
+        kallisto_index = "reference_set" + "/sequences.kallisto_idx"
+    shell:
+        "kallisto index -i {output.kallisto_index} {input.ref_set_seq}"
+
+rule create_benchmark_dir:
+    shell:
+        "mkdir benchmarks"
+
+#mkdir benchmarks
+
+rule generate_ww_data:
+    input:
+        ss_metadata =  config["metadata_ww"],
+        ss_sequences =   config["sequences_ww"]
+
+    params: 
+        abudances = config['abundances'],
+        vocs = config['vocs'],
+        coverage = config['coverage']
+    output:
+        bench_dir = "benchmarks/ww_C.37vP.1"
+    shell:
+        "python ../../benchmarking/create_benchmarks.py --voc_perc {params.abudances} -m {input.ss_metadata} -fr {input.ss_sequences} -fv {params.vocs} -o {output.bench_dir} --total_cov {params.coverage}"
+
+
+rule output_predictions:
+    params:
+        bootstraps = config["bootstraps"],
+        min_ab = config["min_ab"],
+        ref_set = "reference_set",
+        dataset = "benchmarks/ww_C.37vP.1"
+    shell:
+        "bash ../../manuscript/run_kallisto_ref_sets_v1.sh {params.dataset} {params.bootstraps} {params.ref_set} {params.min_ab}"
