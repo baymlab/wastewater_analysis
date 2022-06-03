@@ -24,6 +24,7 @@ The main force behind the VLQ pipeline is [kallisto](https://pachterlab.github.i
 - python
 - pyvcf
 - pysam
+
 All dependencies can be easily installed through conda, see `dependencies.txt` for the conda package versions used to run the computational analysis presented in our manuscript.
 
 
