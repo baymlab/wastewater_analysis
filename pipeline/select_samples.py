@@ -163,6 +163,7 @@ def filter_fasta(fasta_in, fasta_out, selection_df):
                     # sequence identifier
                     seq_id = line.rstrip('\n').lstrip('>').split('|')[0]
                     # replace spaces by underscores to avoid kallisto index issues
+                    seq_id = seq_id.replace(" ", "_")
                     line = line.replace(" ", "_")
                     if len(selection_identifiers) == 0:
                         break
