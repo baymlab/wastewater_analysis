@@ -28,6 +28,8 @@ def main():
     full_df = read_metadata(args.metadata)
     selection_df = select_ref_genomes(full_df, args.max_per_lineage, args.vcf,
                                       args.freq, args.min_aaf)
+    # replace spaces by underscores in sequence identifiers to avoid kallisto index issues
+    selection_df["Virus name"] = selection_df["Virus name"].str.replace(" ", "_")
     # Write metadata of selected samples to new tsv
     metadata_out = args.outdir + "/metadata.tsv"
     selection_df.to_csv(metadata_out, sep='\t', index=False)
@@ -160,6 +162,8 @@ def filter_fasta(fasta_in, fasta_out, selection_df):
                 if line[0] == '>':
                     # sequence identifier
                     seq_id = line.rstrip('\n').lstrip('>').split('|')[0]
+                    # replace spaces by underscores to avoid kallisto index issues
+                    line = line.replace(" ", "_")
                     if len(selection_identifiers) == 0:
                         break
                     elif seq_id in selection_identifiers:
