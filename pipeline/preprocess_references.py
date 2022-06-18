@@ -168,7 +168,7 @@ def read_metadata(metadata_file, max_N_content):
     # remove samples which are marked as incomplete or N-content > threshold
     df = df.astype({"Is complete?" : 'bool',
                     "N-Content" : 'float'})
-    df = df["N-Content"].fillna(0)
+    df["N-Content"] = df["N-Content"].fillna(0)
     df = df.loc[
             (df["Is complete?"] == True) & (df["N-Content"] <= max_N_content)]
     return df
