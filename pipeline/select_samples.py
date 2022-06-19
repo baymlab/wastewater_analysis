@@ -53,7 +53,8 @@ def read_metadata(metadata_file):
     # remove samples which are marked as incomplete or N-Content > 1%
     df = df.astype({"Is complete?" : 'bool',
                     "N-Content" : 'float'})
-    df = df.loc[(df["Is complete?"] == True) & (df["N-Content"] <= 0.01)]
+    df["N-Content"] = df["N-Content"].fillna(0)
+    df = df.loc[(df["Is complete?"] == True) & (df["N-Content"] <= 1)]
     return df
 
 
