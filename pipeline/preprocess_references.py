@@ -13,7 +13,8 @@ def main():
     parser.add_argument('-m, --metadata', dest='metadata', type=str, help="metadata tsv file for full sequence database")
     parser.add_argument('-f, --fasta', dest='fasta_in', type=str, help="fasta file representing full sequence database")
     parser.add_argument('-k', dest='select_k', type=int, default=1000, help="randomly select 1000 sequences per lineage")
-    parser.add_argument('--max_N_content', type=float, default=0.01, help="remove genomes with N rate exceeding this threshold; default = 0.01 (1%)")
+    parser.add_argument('--max_N_content', type=float, default=0.001, help="remove genomes with N rate exceeding this threshold")
+    parser.add_argument('--min_seq_len', type=int, default=25000, help="remove genomes shorter than this threshold")
     parser.add_argument('--continent', dest='continent', type=str, help="only consider sequences found in specified continent")
     parser.add_argument('--country', dest='country', type=str, help="only consider sequences found in specified country")
     parser.add_argument('--state', dest='state', type=str, help="only consider sequences found in specified state")
@@ -31,7 +32,9 @@ def main():
         pass
 
     # read metadata
-    metadata_df = read_metadata(args.metadata, args.max_N_content)
+    metadata_df = read_metadata(args.metadata,
+                                args.max_N_content,
+                                args.min_seq_len)
     # remove duplicate sequences
     metadata_df.drop_duplicates(subset=["Virus name",
                                         "Collection date",
@@ -156,7 +159,7 @@ def main():
     return
 
 
-def read_metadata(metadata_file, max_N_content):
+def read_metadata(metadata_file, max_N_content, min_seq_len):
     """Read metadata from tsv into dataframe and filter for completeness"""
     df = pd.read_csv(metadata_file, sep='\t', header=0, dtype=str)
     # adjust date representation in dataframe
@@ -167,10 +170,13 @@ def read_metadata(metadata_file, max_N_content):
     df = df.loc[df["Pango lineage"] != "None"]
     # remove samples which are marked as incomplete or N-content > threshold
     df = df.astype({"Is complete?" : 'bool',
-                    "N-Content" : 'float'})
+                    "N-Content" : 'float',
+                    "Sequence length" : 'int'})
     df["N-Content"] = df["N-Content"].fillna(0)
     df = df.loc[
-            (df["Is complete?"] == True) & (df["N-Content"] <= max_N_content)]
+            (df["Is complete?"] == True) & \
+            (df["N-Content"] <= max_N_content) & \
+            (df["Sequence length"] >= min_seq_len)]
     return df
 
 
