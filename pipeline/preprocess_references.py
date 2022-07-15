@@ -26,10 +26,10 @@ def main():
     args = parser.parse_args()
 
     # create output directory
-    try:
-        os.mkdir(args.outdir)
-    except FileExistsError:
-        pass
+    if os.path.exists(args.outdir):
+        print("WARNING: overwriting output directory {}".format(args.outdir))
+        shutil.rmtree(args.outdir)
+    os.makedirs(args.outdir)
 
     # read metadata
     metadata_df = read_metadata(args.metadata,
@@ -48,14 +48,6 @@ def main():
     selection_dict = {}
     lineages_with_sequence = []
     for lin_id in lineages:
-        # create lineage directory
-        try:
-            os.mkdir("{}/{}".format(args.outdir, lin_id))
-        except FileExistsError:
-            # empty existing directory
-            old_files = glob.glob("{}/{}/*".format(args.outdir, lin_id))
-            for f_trash in old_files:
-                os.remove(f_trash)
         # filter for lineage, country and length
         samples = metadata_df.loc[metadata_df["Pango lineage"] == lin_id]
         # add extra row to avoid pandas bug (https://github.com/pandas-dev/pandas/issues/35807)
@@ -107,6 +99,12 @@ def main():
                 # print(seq_name)
                 selection_dict[seq_name] = (lin_id, gisaid_id)
         lineages_with_sequence.append(lin_id)
+        # create lineage directory
+        try:
+            os.mkdir("{}/{}".format(args.outdir, lin_id))
+        except FileExistsError:
+            print("ERROR: directory for {} already exists".format(lin_id))
+            sys.exit(1)
 
     print("{} sequences selected".format(len(selection_dict.keys())))
     # write sequences to separate files
