@@ -2,7 +2,7 @@
 
 REFDIR=$1
 
-for file in ${REFDIR}; do \
+for file in ${REFDIR}/*; do \
     if [ -d "$file" ] ; then
         # echo "$file is a directory and it will be removed";
         rm -r $file
