@@ -7,6 +7,7 @@ import argparse
 import pandas as pd
 import glob
 import datetime as dt
+import subprocess
 
 
 def main():
