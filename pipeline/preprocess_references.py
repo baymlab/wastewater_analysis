@@ -176,7 +176,7 @@ def main():
     # write lineages
     with open("{}/lineages.txt".format(args.outdir), 'w') as f:
         for lin_id in sorted(lineages_with_sequence):
-            f.write("{}\n".format(lin_id))
+            f.write("{} {}\n".format(lin_id, lineage_counts[lin_id]))
 
     return
 
