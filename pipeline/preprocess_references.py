@@ -18,6 +18,7 @@ def main():
     parser.add_argument('-k', dest='select_k', type=int, default=1000, help="randomly select 1000 sequences per lineage")
     parser.add_argument('--max_N_content', type=float, default=0.001, help="remove genomes with N rate exceeding this threshold")
     parser.add_argument('--min_seq_len', type=int, default=25000, help="remove genomes shorter than this threshold")
+    parser.add_argument('--min_seqs_per_lin', type=int, default=1, help="skip lineages with fewer sequences in the input fasta")
     parser.add_argument('--continent', dest='continent', type=str, help="only consider sequences found in specified continent")
     parser.add_argument('--country', dest='country', type=str, help="only consider sequences found in specified country")
     parser.add_argument('--state', dest='state', type=str, help="only consider sequences found in specified state")
@@ -47,6 +48,7 @@ def main():
                                 ignore_index=True)
     # extract lineage info
     lineages = metadata_df["Pango lineage"].unique()
+    lineage_counts = metadata_df["Pango lineage"].value_counts()
 
     # select sequences
     selection_dict = {}
@@ -55,6 +57,10 @@ def main():
         # skip unclassified sequences
         if lin_id == "Unassigned":
             continue
+        # skip lineages with too few sequences
+        if lineage_counts[lin_id] < args.min_seqs_per_lin:
+            continue
+
         # filter for lineage, country and length
         samples = metadata_df.loc[metadata_df["Pango lineage"] == lin_id]
         # add extra row to avoid pandas bug (https://github.com/pandas-dev/pandas/issues/35807)
