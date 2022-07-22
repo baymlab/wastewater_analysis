@@ -26,6 +26,7 @@ def main():
     parser.add_argument('--seed', dest='seed', default=0, type=int, help="random seed for sequence selection")
     parser.add_argument('-o, --outdir', dest='outdir', type=str, default="seqs_per_lineage", help="output directory")
     parser.add_argument('--verbose', action='store_true')
+    parser.add_argument('--test_sed', action='store_true')
     args = parser.parse_args()
 
     # create output directory
@@ -113,15 +114,15 @@ def main():
     # write sequences to separate files
     fasta_index = read_index(args.fasta_index)
     print("searching fasta and writing sequences to output directory...")
-    for seq_id, info in selection_dict.items():
-        (lin_id, gisaid_id) = info
-        outfile = "{}/{}/{}.fa".format(args.outdir, lin_id, gisaid_id)
-        [start_idx, end_idx] = fasta_index[seq_id]
-        subprocess.check_call("sed -n '{},{}p;{}q' {} > {}".format(
-                start_idx, end_idx, end_idx+1, args.fasta_in, outfile),
-                shell=True)
-
-    if False:
+    if args.test_sed:
+        for seq_id, info in selection_dict.items():
+            (lin_id, gisaid_id) = info
+            outfile = "{}/{}/{}.fa".format(args.outdir, lin_id, gisaid_id)
+            [start_idx, end_idx] = fasta_index[seq_id]
+            subprocess.check_call("sed -n '{},{}p;{}q' {} > {}".format(
+                    start_idx, end_idx, end_idx+1, args.fasta_in, outfile),
+                    shell=True)
+    else:
         with open(args.fasta_in, 'r') as f_in:
             keep_line = False
             line_idx = 0
