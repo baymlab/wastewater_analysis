@@ -14,7 +14,7 @@ def main():
     parser = argparse.ArgumentParser(description="Preprocess reference collection: randomly select samples and write into individual files in lineage-specific directories.")
     parser.add_argument('-m, --metadata', dest='metadata', type=str, required=True, help="metadata tsv file for full sequence database")
     parser.add_argument('-f, --fasta', dest='fasta_in', type=str, required=True, help="fasta file representing full sequence database")
-    parser.add_argument('-i, --index', dest='fasta_index', type=str, required=True, help="fasta index file")
+    # parser.add_argument('-i, --index', dest='fasta_index', type=str, required=True, help="fasta index file")
     parser.add_argument('-k', dest='select_k', type=int, default=1000, help="randomly select 1000 sequences per lineage")
     parser.add_argument('--max_N_content', type=float, default=0.001, help="remove genomes with N rate exceeding this threshold")
     parser.add_argument('--min_seq_len', type=int, default=25000, help="remove genomes shorter than this threshold")
@@ -121,10 +121,11 @@ def main():
 
     print("{} sequences selected".format(len(selection_dict.keys())))
     # write sequences to separate files
-    fasta_index = read_index(args.fasta_index)
     print("searching fasta and writing sequences to output directory...")
     args.test_sed = False
+    args.fasta_index = ""
     if args.test_sed:
+        fasta_index = read_index(args.fasta_index)
         for seq_id, info in selection_dict.items():
             (lin_id, gisaid_id) = info
             outfile = "{}/{}/{}.fa".format(args.outdir, lin_id, gisaid_id)
