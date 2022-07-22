@@ -52,6 +52,9 @@ def main():
     selection_dict = {}
     lineages_with_sequence = []
     for lin_id in lineages:
+        # skip unclassified sequences
+        if lin_id == "Unassigned":
+            continue
         # filter for lineage, country and length
         samples = metadata_df.loc[metadata_df["Pango lineage"] == lin_id]
         # add extra row to avoid pandas bug (https://github.com/pandas-dev/pandas/issues/35807)
