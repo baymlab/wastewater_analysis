@@ -11,7 +11,7 @@ single_ref_path=$2 # path to single reference sequence to compare against
 
 cd ${ref_dir}
 
-while read lineage; do \
+while read lineage lineage_count; do \
     cd $lineage;
     for fasta in *.fa; do \
         # align and sort
