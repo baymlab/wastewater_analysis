@@ -6,8 +6,8 @@ import argparse
 
 def main():
     parser = argparse.ArgumentParser(description="Create index for sequence database (.fasta)")
-    parser.add_argument('-i', dest='fasta', type=str, help="database fasta")
-    parser.add_argument('-o', dest='index', type=str, help="index tsv")
+    parser.add_argument('-f', dest='fasta', type=str, help="database fasta")
+    parser.add_argument('-i', dest='index', type=str, help="index tsv")
     args = parser.parse_args()
 
     with open(args.fasta, 'r') as f_in:
