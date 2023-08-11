@@ -10,8 +10,8 @@ This computational pipeline can easily be reused for other wastewater samples.
 The exact scripts and commands used to analyze the data discussed in our
 manuscript can be found in the manuscript folder.
 
-If you use our pipeline for your own analysis, or want to refer to it for another reason, please cite our preprint:
-*Lineage abundance estimation for SARS-CoV-2 in wastewater using transcriptome quantification techniques.* J.A. Baaijens, A. Zulli, I.M. Ott, et al. medRxiv 2021.08.31.21262938; doi: https://doi.org/10.1101/2021.08.31.21262938
+If you use our pipeline for your own analysis, or want to refer to it for another reason, please cite our paper:
+*Lineage abundance estimation for SARS-CoV-2 in wastewater using transcriptome quantification techniques.* J.A. Baaijens, A. Zulli, I.M. Ott, et al. Genome Biology 23(1), 236, 2022.
 
 ### Dependencies
 
