@@ -13,6 +13,9 @@ manuscript can be found in the manuscript folder.
 If you use our pipeline for your own analysis, or want to refer to it for another reason, please cite our paper:
 *Lineage abundance estimation for SARS-CoV-2 in wastewater using transcriptome quantification techniques.* J.A. Baaijens, A. Zulli, I.M. Ott, et al. Genome Biology 23(1), 236, 2022.
 
+There is now also a **Nextflow implementation** of VLQ: [VLQ-nf](https://github.com/rki-mf1/vlq-nf), implemented by Eva Aßmann and Martin Martin Hölzer. 
+
+
 ### Dependencies
 
 The main force behind the VLQ pipeline is [kallisto](https://pachterlab.github.io/kallisto/about), but several other tools and packages are required to run the pipeline:
