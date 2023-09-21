@@ -31,8 +31,17 @@ All dependencies can be easily installed through conda, see `dependencies.txt` f
 ## Building a reference set
 We build a reference set by selecting representative genomes per lineage from
 the GISAID database. This selection can be based on country or region; for
-example, in our analysis we only consider sequences from US origin. Because the
-GISAID database is very large, we apply a quality filter and subsequently
+example, in our analysis we only consider sequences from US origin. 
+**Reference set construction is very important and can greatly impact further
+analysis**. We recommend selecting references from the ~3 months preceding the
+time of sampling, limited to the region (state or country) of sampling. Below
+we describe how to build such a reference set.
+A quick and easy alternative is to use the **nextregions selection of sequences**
+available for download on GISAID, which are selections of sequences representing
+genomic variation within a given geographical area.
+
+For building a reference set please follow the steps below. Because the GISAID 
+database is very large, we apply a quality filter and subsequently
 call variants and compute allele frequencies from 1000 sequences per lineage.
 Required input data for this step is a fasta file with GISAID sequences and a
 matching metadata tsv file. Both the sequences (.fasta) and the metadata (.tsv)
@@ -68,7 +77,7 @@ mutations with an allele frequency of at least 50% were captured at least once.
 The resulting reference set is stored in `reference_set/sequences.fasta` and
 the corresponding metadata in `reference_set/metadata.tsv`.
 
-### Pre-selected reference set
+### Pre-selected reference set from March 2021
 GISAID sequence identifiers for the reference set used in our manuscript are
 provided in `auxiliary_data/reference_set_03_2021.txt`.
 
