@@ -52,7 +52,7 @@ are publicly available on GISAID but *only after registration*.
 
 First we apply a quality filter while preprocessing GISAID sequences:
 
-    python pipeline/preprocess_references.py -m <GISAID_metadata.tsv> -f <GISAID_sequences.fasta> -k 1000 --seed 0 --country USA --o reference_set   
+    python pipeline/preprocess_references.py -m <GISAID_metadata.tsv> -f <GISAID_sequences.fasta> -k 1000 --seed 0 --country USA -o reference_set   
 
 Note that this preprocessing script also allows you to specify a specific state
 to restrict the reference set to, by using the `--state` option.
